@@ -13,3 +13,7 @@ gem 'net-http'
 gem 'unirest'
 
 gem 'json'
+
+gem 'httparty'
+
+gem 'awesome_print'
