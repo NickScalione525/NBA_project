@@ -4,11 +4,11 @@ require_relative('../lib/api')
 
 
 class Teams  
-    attr_accessor :city, :conference, :division, :full_name
 
 
-    def initialize(response)
-            response.each do |key, value|
+    def initialize(team_hash)
+            team_hash.each do |key, value|
+            self.class.attr_accessor(key)
             self.send(("#{key}="), value)
             binding.pry
         end

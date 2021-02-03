@@ -14,6 +14,8 @@ class Api
 
     def self.get_teams
         response = HTTParty.get(@@url)
+        team_hash = {name: response["full_name"], city: response["city"], conference: response["conference"], division: response["division"]}
+        Teams.new(team_hash)
         binding.pry
     end
 
