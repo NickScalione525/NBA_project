@@ -25,8 +25,8 @@ class Cli
     end
 
     def teams
-        Api.teams.collect do 
-
+        Api.get_teams
+    end
 
 
 
