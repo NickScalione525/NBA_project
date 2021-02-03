@@ -31,6 +31,14 @@ class Api
     end
 end
 
+@@url3 = "https://www.balldontlie.io/api/v1/stats?seasons[]=2020"
+
+def self.get_stats
+    response = HTTParty.get(@@url3)
+    response.collect do |attribute, value|
+        puts "#{attribute}: #{value}"
+        Stats.new(response)
+
    
 end
 
