@@ -12,11 +12,10 @@ class Api
 
     @@url = "https://www.balldontlie.io/api/v1/teams/#{@input}"  
 
-    def self.get_teams(team)
+    def self.get_teams(input)
         response = HTTParty.get(@@url)
-        response.each do |attribute, value|
-            puts "#{attribute}: #{value}"
-            Teams.new(response)
+        response["data"].each do |team|
+        Team.new(team)
         end
     end
 
@@ -31,14 +30,17 @@ class Api
     end
 end
 
-@@url3 = "https://www.balldontlie.io/api/v1/stats?seasons[]=2020"
+@@url3 = "https://www.balldontlie.io/api/v1/season_averages"
 
 def self.get_stats
     response = HTTParty.get(@@url3)
     response.collect do |attribute, value|
         puts "#{attribute}: #{value}"
+        
         Stats.new(response)
-
-   
+    end
 end
+end
+   
+
 
