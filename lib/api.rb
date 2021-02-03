@@ -12,7 +12,7 @@ class Api
 
     @@url = "https://www.balldontlie.io/api/v1/teams/1"
 
-    def self.get_teams
+    def self.get_teams(team)
         response = HTTParty.get(@@url)
         response.each do |attribute, value|
             puts "#{attribute}: #{value}"
