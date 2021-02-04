@@ -23,11 +23,36 @@ doc.css("div[data-template='Partials/Teams/Summary'] p").each do |info|
     elsif info.text.include?("Off Rtg")
         team_hash["off rtg, def rtg, net rtg"] = info.children[2].text.strip, info.children[4].text.strip, info.children[4].text.strip
     end
-end
+    end
+
+    end
+
+    def self.player_info
+        doc = Nokogiri::HTML(open("https://www.basketball-reference.com/teams/NYK/2021.html"))
+        stat_hash = {}
+        doc.css("#all_per_game table tbody tr").each do |category|
+            category.children.each do |x|
+
+        
+
+           
+               
+
+            
+      
+
+        
+            end
+        
+    
+            binding.pry
+        
+      
+    end
+ 
+    end
 
 end
 
-end
 
-
-Scraper.scrape_team_info
+Scraper.player_info
