@@ -2,77 +2,89 @@ class Cli
 
 
     def welcome
-        puts "Hello, Welcome! Let's go!"
+        puts "Hello, Welcome! I'm your host, Walt Clyde Frazier..."
         self.prompt_selection
-    end
+        end
 
     def prompt_selection
-        puts "Please select a number"
-        puts "1. Teams"
-        puts "2. Players"
-        puts "3. Stats"
+        puts "Please select from the following"
+        puts "1. Team Info"
+        puts "2. Player Info"
+        puts "3. Player Stats"
         puts "4. Exit"
         input = gets.strip
-        if input == "1"
-            self.teams  
-        elsif input == "2"
-            Api.get_player(input) 
-        elsif input == "3"
-            self.stats  
-        elsif input == "4"
+         if input == "1" || "Team Info" || "team info"
+            self.knicks_info
+        elsif input == "2" || "Player Info" || "player info"
+            self.player_queue
+        elsif input == "3" || "Player stats" || "player stats"
+            self.player_stats
+        elsif input == "4" || "Exit" || "exit"
             self.goodbye
-        else
-            puts "Hey Wise-Guy! I says pick a numbah 1 through 4!"
-            self.prompt_selection
-        end
-    end
+            end
+            end
 
-    def teams
-        puts "1. Atlanta" "----------------------------"     "16. Miami"
-        puts "2. Boston" "-----------------------------"     "17. Milwaukee"  
-        puts "3. Brooklyn" "---------------------------"    "18. Minnesota"
-        puts "4. Charlotte" "--------------------------"      "19. New Orleans"
-        puts "5. Chicago" "----------------------------"       "20. New York"
-        puts "6. Cleveland" "--------------------------"      "21. Oklahoma City"                             
-        puts "7. Dallas" "-----------------------------"      "22. Orlando"                       
-        puts "8. Denver" "-----------------------------"      "23. Philadelphia"                          
-        puts "9. Detroit" "----------------------------"      "24. Phoenix"                      
-        puts "10 Golden State" "-----------------------"      "25. Portland"
-        puts "11. Houston" "---------------------------"     "26. Sacramento"
-        puts "12. Indiana" "---------------------------"      "27. San Antonio"
-        puts "13. Los Angeles (C)" "-------------------"     "28. Toronto"
-        puts "14. Los Angeles (L)" "-------------------"     "29. Utah"
-        puts "15. Memphis" "---------------------------"     "30. Washington"                             
-        puts "------------------------------------------------------------------------"
-
-        puts "Please select a number 1 - 30."
-        @input = gets.strip
-        if @input == "1" || "2" || "3" || "4" || "5" || "6" || "7" || "8" || "9" || "10" || "11" || "12" || "13" || "14" || "15" || "16" || "17" || "18" || "19" || "20" || "21" || "22" || "23" || "24" || "25" || "26" || "27" || "28" || "29" || "30"
-           puts "Your wish is my command"
-    
-           
-           
-            Api.get_teams(@input)
-        else
-            puts "Hey was ahmaddah witch you? I says pick a numbah 1 through 30!!!"
-            self.teams
+        def knicks_info
+            #Displays all the team info at once.
+            #Merge team_hash and knicks hash and list Scraper.player_salaries
+            new_team = Scraper.scrape_team_info
         end
 
+        def player_queue
+            puts "Your 2020-2021 New York Knicks!"
+            puts "_______________________________"
+            puts "Guards"
+            puts "______"
+            puts "Immanuel Quickley - 3547269 --- RJ Barrett - 666423 --- Alec Burks - 77"
+            puts "Austin Rivers - 393 --- Frank Ntilikina - 347 --- Elfird Payton - 369"
+            puts "Dennis Smith Jr. - 421"
+            puts "--------------------------------------------------------------------"
+            puts "Forwards"
+            puts "________"
+            puts "Julius Randle - 387 --- Obi Toppin - 3547243 --- Reggie Bullock - 75"
+            puts "Ignas Brazdekis - 666464 --- Kevin Knox - 259"
+            puts "--------------------------------------------------------------------"
+            puts "Centers"
+            puts "_______"
+            puts "Mitchell Robinson - 399 --- Nerlens Noel - 345 --- Taj Gibson - 173"
+            puts "--------------------------------------------------------------------"
+            puts "Which Knick has the Knack? Type the number associated with the Knicks you would like to view."
+            new_player = false
+
+        
+            while !new_player
+            # User selects a Knick returning the interpolated Api request
+            
+            input = gets.strip
+            input.to_i
+            new_player = Api.get_player(input)
+            if !new_player
+                puts "Hacking and whacking with a dubious call, try again."
+            end
+        end
+        self.player_info(jnput)
     end
 
-
-def players
-    Api.get_player
-end
-
-def stats
-    Api.get_stats
-end
+    def player_info(input)
+        
 
 
 
+        def player_stats
+            #gives user a prompt 1 or 2, list all stats based on selection
+            puts "Please select one of the following"
+            puts "1. Traditional  or 2. Advanced"
+            input = gets.strip
+            if input == "1" || "Traditional" || "traditional"
+                Scraper.player_stats
+            elsif input == "2" || "Advanced" || "advanced"
+                Scraper.advanced_stats
+            else
+                
+                end
+             end
 
-def goodbye
-    puts "Go Bills!"
-end
-end
+        def goodbye
+        puts "Go Knicks!"
+        end
+    end

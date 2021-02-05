@@ -3,11 +3,13 @@ require 'pry'
 require_relative('../lib/api')
 
 
-class Players 
-        
+class Stats < Scraper
 
-    def initialize(player_hash)
-            player_hash.each do |key, value|
+    @@all = []
+
+
+    def initialize(hash)
+            hash.each do |key, value|
             self.class.attr_accessor(key)
             self.send(("#{key}="), value)
             binding.pry
