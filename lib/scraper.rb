@@ -37,7 +37,7 @@ class Scraper
    
 
 
-    def self.player_stats
+    def self.traditional_player_stats
         doc2 = Nokogiri::HTML(open("https://www.basketball-reference.com/teams/NYK/2021.html"))
         collection = doc2.css("#per_game tr").collect do |tr|
         traditional_hash = {}

@@ -9,16 +9,19 @@ class Team < Api
     @@all = []
 
     def initialize(team_hash)
-        @team_hash.each do |key, value|
+        team_hash.each do |key, value|
             self.send("#{key}=", value)
             @@all << self unless @@all.include? self
-            @team_hash = @knicks_hash.merge(team_hash)
         end
     end
 
     def self.all
         @@all
         binding.pry
+    end
+
+    def hash_merger
+        knicks_hash = team_hash.merge(knicks_hash)
     end
 
 end
