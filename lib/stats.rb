@@ -3,7 +3,7 @@ require 'pry'
 require_relative('../lib/api')
 
 
-class Stats < Scraper
+class Stats
 
     @@all = []
 
@@ -15,4 +15,18 @@ class Stats < Scraper
             binding.pry
         end
     end
+
+    def add_player_stats_traditional
+        traditional_hash = Scraper.new.player_stats(self)
+        traditional_hash.each do |key,value|
+          self.send("#{key}=", value)
+        end
+      end
+    
+    def add_player_stats_advanced
+        advanced_hash = Scraper.new.advanced_stats(self)
+        advanced_hash.each do |key,value|
+          self.send("#{key}=", value)
+        end
+      end
 end

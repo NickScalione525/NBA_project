@@ -4,6 +4,7 @@ require 'awesome_print'
 require 'nokogiri'
 require 'open-uri'
 require 'httparty'
+require 'terminal-table'
 
 
 require_relative('../lib/api')

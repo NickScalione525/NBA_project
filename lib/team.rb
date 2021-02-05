@@ -17,7 +17,7 @@ class Team < Api
     end
 
     def self.all
-        @@all.uniq
+        @@all
         binding.pry
     end
 

@@ -20,19 +20,6 @@ class Api
         end
     end
 
-
-    
-    @@url2 = "https://www.balldontlie.io/api/v1/players/@{input}"
-
-   def self.get_player(input)
-    response = HTTParty.get(@@url2)
-    response["data"].each do |name|
-        player_hash = {first_name: name["first_name"], last_name: name["last_name"], position: name["position"], height_feet: name["height_feet"], height_inches: name["height_inches"], weight_pounds: name["weight_pounds"], team: name["team"]["full_name"]}
-        Player.new(player_hash)
-        end
-    end
-end
-
    
-
+end
 

@@ -27,7 +27,7 @@ class Scraper
         team_hash["pace"]= info.children[-1].text.strip
     elsif info.text.include?("Off Rtg")
         team_hash["off rtg, def rtg, net rtg"] = info.children[2].text.strip, info.children[4].text.strip, info.children[4].text.strip
-        binding.pry
+     
         end
         end
    
@@ -78,7 +78,7 @@ class Scraper
         end
 
 
-       def self.advanced_stats
+       def self.advanced_player_stats
         doc3 = Nokogiri::HTML(open("https://www.basketball-reference.com/teams/NYK/2021.html"))
         set = doc3.css("#advanced tr").collect do |tr| 
         advanced_hash = {}
@@ -131,7 +131,6 @@ class Scraper
                     nationality: tr.children[6].text,
                     experience: tr.children[7].text,
                     college: tr.children[8].text}
-            binding.pry
            end
         end
     end
