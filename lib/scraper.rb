@@ -3,81 +3,138 @@ require 'open-uri'
 require 'pry'
 require 'httparty'
 require 'csv'
+require 'terminal-table'
 
 
 class Scraper
 
     def self.scrape_team_info
     doc = Nokogiri::HTML(open("https://www.basketball-reference.com/teams/NYK/2021.html"))
-    @team_hash = {}
+    team_hash = {}
     doc.css("div[data-template='Partials/Teams/Summary'] p").each do |info|
      if info.text.include?("Record")
-        @team_hash["record"]= info.children[2].text.strip + " " + info.children[4].text.strip
+        team_hash["record"]= info.children[2].text.strip + " " + info.children[4].text.strip
     elsif info.text.include?("Coach")
-        @team_hash["coach"] = info.children[2].text.strip
+        team_hash["coach"] = info.children[2].text.strip
     elsif info.text.include?("Executive")
-        @team_hash["executive"] = info.children[2].text.strip
+        team_hash["executive"] = info.children[2].text.strip
     elsif info.text.match?("PTS/G")
-        @team_hash["pts/g, opp pts/g"] = info.children[2].text.strip, info.children[4].text.strip
+        team_hash["pts/g, opp pts/g"] = info.children[2].text.strip, info.children[4].text.strip
     elsif info.text.include?("Pace")
-        @team_hash["pace"]= info.children[-1].text.strip
+        team_hash["pace"]= info.children[-1].text.strip
     elsif info.text.include?("Off Rtg")
-        @team_hash["off rtg, def rtg, net rtg"] = info.children[2].text.strip, info.children[4].text.strip, info.children[4].text.strip
+        team_hash["off rtg, def rtg, net rtg"] = info.children[2].text.strip, info.children[4].text.strip, info.children[4].text.strip
+        binding.pry
     end
-    @team_hash = @knicks_hash.merge(team_hash)
-    binding.pry
     end
    
     end
 
     def self.player_stats
         doc2 = Nokogiri::HTML(open("https://www.basketball-reference.com/teams/NYK/2021.html"))
-        doc2.css("#all_per_game").each do |category| 
-        table = doc2.at("#div_per_game")
-        table.search('tr').each do |tr|
-        cells = tr.search('th, td')
-        cells.each do |cell|    
-        text = cell.text.strip
-         puts CSV.generate_line(cells)
-         binding.pry
-         CSV.parse(cells)
-         binding.pry
-                    end
+        collection = doc2.css("#per_game tr").collect do |tr|
+        traditional_hash = {}
+        tr.children.each do |t|
+            if tr.text.include?("Randle")
+                traditional_hash = {
+                    name: tr.children[1].text, 
+                    age: tr.children[2].text,
+                    games: tr.children[3].text,
+                    starts: tr.children[4].text,
+                    mpg: tr.children[5].text,
+                    fg: tr.children[6].text,
+                    fga: tr.children[7].text,
+                    fgperc: tr.children[8].text,
+                    threes_a_game: tr.children[9].text,
+                    threes_attempted: tr.children[10].text,
+                    three_percentage: tr.children[11].text,
+                    twos_a_game: tr.children[12].text,
+                    twos_attempted: tr.children[13].text,
+                    twos_percentage: tr.children[14].text,
+                    efg: tr.children[15].text,
+                    ft: tr.children[16].text,
+                    fta: tr.children[17].text,
+                    ft_percentage: tr.children[18].text,
+                    orb: tr.children[19].text,
+                    drb: tr.children[20].text,
+                    trb: tr.children[21].text,
+                    ast: tr.children[22].text,
+                    stl: tr.children[23].text,
+                    blk: tr.children[24].text,
+                    tov: tr.children[25].text, 
+                    pf: tr.children[26].text,
+                    pts: tr.children[27].text}
+                    binding.pry
                 end
+            end    
+            end
         end
-    end
 
 
        def self.advanced_stats
         doc3 = Nokogiri::HTML(open("https://www.basketball-reference.com/teams/NYK/2021.html"))
-        doc3.css("#all_advanced").each do |category| 
-        table2 = doc3.at("#div_advanced")
-        table2.search('tr').each do |tr|
-            cells = tr.search('th, td')
-            cells.each do |cell|
-                text = cell.text.strip
-                puts CSV.generate_line(cells)
-                end
-            end
-        end
-       end
+        set = doc3.css("#advanced tr").collect do |tr| 
+        advanced_hash = {}
+        tr.children.each do |t|
+           if tr.text.include?("Randle")
+                advanced_hash = {
+                    name: tr.children[1].text,
+                    age: tr.children[2].text,
+                    games: tr.children[3].text,
+                    MP: tr.children[4].text,
+                    PER: tr.children[5].text,
+                    TS: tr.children[6].text,
+                    three_rate: tr.children[7].text,
+                    FTr: tr.children[8].text,
+                    ORB_percentage: tr.children[9].text,
+                    DRB_percentage: tr.children[10].text,
+                    TRB_percentage: tr.children[11].text,
+                    AST_percentage: tr.children[12].text,
+                    STL_percentage: tr.children[13].text,
+                    BLK_percentage: tr.children[14].text,
+                    TOV_percentage: tr.children[15].text,
+                    USG: tr.children[16].text,
+                    OWS: tr.children[18].text,
+                    DWS: tr.children[19].text,
+                    WS: tr.children[20].text,
+                    WS_per_forty_eight: tr.children[21].text,
+                    OBPM: tr.children[23].text,
+                    DBPM: tr.children[24].text,
+                    BPM: tr.children[25].text,
+                    VORP: tr.children[26].text}
+                    binding.pry
+           end
+        end    
+     end
+    end
 
+
+
+
+
+
+
+
+
+
+
+
+                
 
 
         def self.player_salaries
-        doc4 = Nokogiri::HTML(open("https://www.basketball-reference.com/teams/NYK/2021.html"))
-        doc4.css("#all_salaries2").each do |tr|
-        table3 = doc4.at("#salaries2")
-        table3.search('tr').each do |tr|
-            cells3 = tr.search('th, td')
-            cells3.each do |cell|
-                text = cell.text.strip
-                puts CSV.generate_line(cells2)
-                                        end
-                                end
-                        end
-         end
+            salary_hash = {}
+            doc4 = Nokogiri::HTML(open("https://www.basketball-reference.com/teams/NYK/2021.html"))
+            doc4.css("#salaries2 tr").collect do |tr|
+            tr.children.each do |t|
+                if tr.text.include?("Randle")
+                
+                end
+                end
+                binding.pry
+            end
+          
+        end
 end
 
-
-Scraper.player_stats
+Scraper.player_salaries
