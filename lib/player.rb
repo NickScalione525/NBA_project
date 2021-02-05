@@ -17,11 +17,24 @@ class Player
             binding.pry
         end
     end
+
+    def self.create_player(player_array)
+        player_array.each do |player|
+            Player.new(player)
+        end
+    end
+
+    def self.player_names
+        @@all.map {|player| player.name}
+      end
+
     
     def self.find(input)
         @@all.find do |player|
-            player.name.include?(input)
+            player.name.downcase.include?(input.downcase)
         end
     end
-end
 
+    def player_salary(input)
+end
+end
