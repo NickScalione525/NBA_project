@@ -5,6 +5,9 @@ require 'httparty'
 require 'csv'
 require 'terminal-table'
 
+require_relative './player.rb'
+require_relative './api.rb'
+
 
 class Scraper
 
@@ -25,10 +28,14 @@ class Scraper
     elsif info.text.include?("Off Rtg")
         team_hash["off rtg, def rtg, net rtg"] = info.children[2].text.strip, info.children[4].text.strip, info.children[4].text.strip
         binding.pry
-    end
-    end
+        end
+        end
    
     end
+
+
+   
+
 
     def self.player_stats
         doc2 = Nokogiri::HTML(open("https://www.basketball-reference.com/teams/NYK/2021.html"))
@@ -64,8 +71,8 @@ class Scraper
                     tov: tr.children[25].text, 
                     pf: tr.children[26].text,
                     pts: tr.children[27].text}
-                    binding.pry
-                end
+            else
+         end
             end    
             end
         end
@@ -76,7 +83,7 @@ class Scraper
         set = doc3.css("#advanced tr").collect do |tr| 
         advanced_hash = {}
         tr.children.each do |t|
-           if tr.text.include?("Randle")
+           if tr.text.include?("player.name.downcase")
                 advanced_hash = {
                     name: tr.children[1].text,
                     age: tr.children[2].text,
@@ -102,39 +109,59 @@ class Scraper
                     DBPM: tr.children[24].text,
                     BPM: tr.children[25].text,
                     VORP: tr.children[26].text}
-                    binding.pry
+            else
            end
         end    
      end
     end
 
-
-
-
-
-
-
-
-
-
-
-
-                
-
-
-        def self.player_salaries
-            salary_hash = {}
-            doc4 = Nokogiri::HTML(open("https://www.basketball-reference.com/teams/NYK/2021.html"))
-            doc4.css("#salaries2 tr").collect do |tr|
-            tr.children.each do |t|
-                if tr.text.include?("Randle")
-                
-                end
-                end
-                binding.pry
-            end
-          
+        def self.roster
+        doc5 = Nokogiri::HTML(open("https://www.basketball-reference.com/teams/NYK/2021.html"))
+        doc5.css("#roster tr").collect do |tr| 
+        player_hash = {}
+        tr.children.each do |t|
+           if tr.text.include?("player.name.downcase")
+                player_hash = {
+                    name: tr.children[1].text,
+                    number: tr.children[0].text,
+                    position: tr.children[2].text,
+                    height: tr.children[3].text,
+                    weight: tr.children[4].text,
+                    birthdate: tr.children[5].text,
+                    nationality: tr.children[6].text,
+                    experience: tr.children[7].text,
+                    college: tr.children[8].text}
+            binding.pry
+           end
         end
+    end
 end
 
-Scraper.player_salaries
+    def self.player_salaries
+    salary_hash = {}
+    doc4 = Nokogiri::HTML(open("https://www.basketball-reference.com/contracts/NYK.html"))
+    doc4.css("#contracts tr").collect do |tr|
+    tr.children.each do |t|
+        if tr.text.include? ("Randle")
+                salary_hash = {
+                name: tr.children[0].text,
+                age: tr.children[1].text,
+                salary: tr.children[2].text}     
+         else
+        end
+        end
+          
+                
+    end
+
+        end
+
+
+
+                
+
+
+end
+
+
+Scraper.player_stats
