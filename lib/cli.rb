@@ -70,6 +70,7 @@ class Cli
                 puts "-----------------------------------------------------------------------------------------------"
 
                 input = gets.strip
+                # error handling
                 if Scraper.roster.include?(input)
                     self.display player(input)
                     puts "Duping and hooping, what can I show you next?"
@@ -89,6 +90,45 @@ class Cli
                     else
                         # error handling
                 end
+
+                def player_stats
+                    puts "Cruising and Bruising or Wheeling and Dealing?"
+                    puts "Spinning and Winning or Weaving and Achieving?"
+                    puts "       Which set of stats do you prefer? "
+                    puts " 1. Tradiitional   -   2. Advanced    -  3. Exit"
+                        input = gets.strip  
+                    if input == "1" || "Traditional"
+                        self.traditional_stats
+                    elsif input == "2" || "Advanced"
+                        self.advanced_stats
+                    elsif input == "3" || "Exit"
+                        self.goodbye
+                    else
+                        # error handling
+                end
+
+                def traditional_stats
+                    puts "Please enter the name of the Knick you would like to view"
+                        input = gets.strip
+                    if Player.all.include?(input)
+                        # return traditional stat hash
+                    else
+                        puts "Who is that?"
+                        self.player_stats
+                    end
+
+                
+                    def advanced_stats
+                        puts "Please enter the name of the Knick you would like to view"
+                            input = gets.strip
+                        if Player.all.include?(input)
+                            # return advanced stat hash
+                        else
+                            puts "Who is that?"
+                            self.player_stats
+                    end
+    
+
 
 
 
