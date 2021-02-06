@@ -15,23 +15,19 @@ class Scraper
     doc = Nokogiri::HTML(open("https://www.basketball-reference.com/teams/NYK/2021.html"))
     team_hash = {}
     doc.css("div[data-template='Partials/Teams/Summary'] p").each do |info|
-     if info.text.include?("Record")
-        team_hash["record"]= info.children[2].text.strip + " " + info.children[4].text.strip
-    elsif info.text.include?("Coach")
-        team_hash["coach"] = info.children[2].text.strip
-    elsif info.text.include?("Executive")
-        team_hash["executive"] = info.children[2].text.strip
-    elsif info.text.match?("PTS/G")
-        team_hash["pts/g, opp pts/g"] = info.children[2].text.strip, info.children[4].text.strip
-    elsif info.text.include?("Pace")
-        team_hash["pace"]= info.children[-1].text.strip
-    elsif info.text.include?("Off Rtg")
-        team_hash["off rtg, def rtg, net rtg"] = info.children[2].text.strip, info.children[4].text.strip, info.children[4].text.strip
-     
-        end
-        end
-   
-    end
+            team_hash = {
+                    record: doc.css("div[data-template='Partials/Teams/Summary'] p").children[2].text.strip + " " + doc.css("div[data-template='Partials/Teams/Summary'] p").children[4].text.strip,
+                    coach: doc.css("div[data-template='Partials/Teams/Summary'] p").children[15].text.strip,
+                    executive: doc.css("div[data-template='Partials/Teams/Summary'] p").children[19].text.strip,
+                    pts_per_game: doc.css("div[data-template='Partials/Teams/Summary'] p").children[22].text.strip,
+                    opp_pts_per_game: doc.css("div[data-template='Partials/Teams/Summary'] p").children[24].text.strip,
+                    pace: doc.css("div[data-template='Partials/Teams/Summary'] p").children[29].text.strip,
+                    off_rtg: doc.css("div[data-template='Partials/Teams/Summary'] p").children[32].text.strip,
+                    def_rtg: doc.css("div[data-template='Partials/Teams/Summary'] p").children[34].text.strip,
+                    net_rtg: doc.css("div[data-template='Partials/Teams/Summary'] p").children[36].text.strip}
+                    end
+                    Team.new(team_hash)
+                end
 
 
    
@@ -72,8 +68,12 @@ class Scraper
                     pf: tr.children[26].text,
                     pts: tr.children[27].text}
             else
-         end
-            end    
+                if  !tr.text.include?("Randle")
+                    return false
+                    end
+                    binding.pry
+                end
+                end    
             end
         end
 
@@ -110,6 +110,9 @@ class Scraper
                     BPM: tr.children[25].text,
                     VORP: tr.children[26].text}
             else
+                if !tr.text.include?("Randle")
+                    returns false
+                end
            end
         end    
      end
@@ -163,4 +166,4 @@ end
 end
 
 
-Scraper.player_stats
+Scraper.scrape_team_info
