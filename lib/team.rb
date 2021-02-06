@@ -3,15 +3,17 @@ require 'pry'
 require_relative('../lib/api')
 
 
-class Team < Api
-    attr_accessor :full_name, :city, :conference, :division
+class Team
+    
     
     @@all = []
 
-    def initialize(team_hash)
-        team_hash.each do |key, value|
+    def initialize(team_hash) 
+           team_hash.each do |key, value|
+            self.class.attr_accessor(key)
             self.send("#{key}=", value)
             @@all << self unless @@all.include? self
+            Team.all
         end
     end
 
@@ -20,7 +22,7 @@ class Team < Api
         binding.pry
     end
 
-    def hash_merger
+    def display_team_info
         knicks_hash = team_hash.merge(knicks_hash)
     end
 

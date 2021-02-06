@@ -14,8 +14,11 @@ class Player
             self.send(("#{key}="), value)
             @@all << self unless @@all.include? self
             @@all
-            binding.pry
         end
+    end
+    
+    def self.all
+        @@all
     end
 
     def self.create_player(player_array)
@@ -35,6 +38,5 @@ class Player
         end
     end
 
-    def player_salary(input)
-end
+   
 end

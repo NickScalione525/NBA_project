@@ -13,10 +13,18 @@ class Scraper
 
     def self.scrape_team_info
     doc = Nokogiri::HTML(open("https://www.basketball-reference.com/teams/NYK/2021.html"))
+    doc2 = Nokogiri::HTML(open("https://www.basketball-reference.com/teams/NYK/"))
     team_hash = {}
-    doc.css("div[data-template='Partials/Teams/Summary'] p").each do |info|
-            team_hash = {
-                    record: doc.css("div[data-template='Partials/Teams/Summary'] p").children[2].text.strip + " " + doc.css("div[data-template='Partials/Teams/Summary'] p").children[4].text.strip,
+    doc2.css("#info p").each do |x|
+        knicks_hash = {
+            team_name: doc2.css("#info p").children[7].text.strip,
+            location: doc2.css("#info p").children[4].text.strip,
+            overall_record: doc2.css("#info p").children[13].text.strip,
+            playoff_apearences: doc2.css("#info p").children[16].text.strip,
+            championships: doc2.css("#info p").children[19].text.strip}
+                    doc.css("div[data-template='Partials/Teams/Summary'] p").each do |info|
+                    team_hash = {
+                    current_record: doc.css("div[data-template='Partials/Teams/Summary'] p").children[2].text.strip + " " + doc.css("div[data-template='Partials/Teams/Summary'] p").children[4].text.strip,
                     coach: doc.css("div[data-template='Partials/Teams/Summary'] p").children[15].text.strip,
                     executive: doc.css("div[data-template='Partials/Teams/Summary'] p").children[19].text.strip,
                     pts_per_game: doc.css("div[data-template='Partials/Teams/Summary'] p").children[22].text.strip,
@@ -25,11 +33,12 @@ class Scraper
                     off_rtg: doc.css("div[data-template='Partials/Teams/Summary'] p").children[32].text.strip,
                     def_rtg: doc.css("div[data-template='Partials/Teams/Summary'] p").children[34].text.strip,
                     net_rtg: doc.css("div[data-template='Partials/Teams/Summary'] p").children[36].text.strip}
-                    end
+                     team_hash = knicks_hash.merge(team_hash)
                     Team.new(team_hash)
+                    end
                 end
 
-
+            end
    
 
 

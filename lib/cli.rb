@@ -18,6 +18,7 @@ class Cli
 
     def welcome
         puts "Hello! I'm your host, Walt Clyde Frazier.  Let's get started.  What would you like to check out first?"
+        self.prompt_selection
     end
 
         def prompt_selection
@@ -45,14 +46,16 @@ class Cli
         def knicks_info
             puts "Bounding and Astounding, here is a look at your 2020-2021 NY Knicks."
             puts "--------------------------------------------------------------------"
+                            
+                                    Scraper.scrape_team_info
+                                
+            
 
-        
-            # displays all team info
 
-
-            puts "--------------------Where to next?----------------------------"
+            puts "-----------------------Where to next?-------------------------"
             puts "--------------------------------------------------------------"
-            puts " 1. Player info "       " 2. Player stats ""       " "3. Exit"
+            puts " 1. Player info "      " 2. Player stats   ""       " "3. Exit"
+            puts "--------------------------------------------------------------"
             puts "--------------------------------------------------------------"
             input = gets.strip
             if input.downcase == "1" || "Player info"
@@ -64,6 +67,7 @@ class Cli
             else
                 # "error handling"
          end
+        end
 
             def player_info
                 puts " A precocious vet or an auspicious neophyte? Which Knick with the Knack will tickle your fancy?"
@@ -88,8 +92,11 @@ class Cli
                     elsif input == "4" || "Exit"
                         self.goodbye
                     else
-                        # error handling
+                        puts "A dubious call hexes and vexes. Let's try again."
+                        self.prompt_selection
                 end
+            end
+        end
 
                 def player_stats
                     puts "Cruising and Bruising or Wheeling and Dealing?"
@@ -106,6 +113,7 @@ class Cli
                     else
                         # error handling
                 end
+            end
 
                 def traditional_stats
                     puts "Please enter the name of the Knick you would like to view"
@@ -116,7 +124,7 @@ class Cli
                         puts "Who is that?"
                         self.player_stats
                     end
-
+                end
                 
                     def advanced_stats
                         puts "Please enter the name of the Knick you would like to view"
@@ -127,7 +135,7 @@ class Cli
                             puts "Who is that?"
                             self.player_stats
                     end
-    
+                end
 
 
 
