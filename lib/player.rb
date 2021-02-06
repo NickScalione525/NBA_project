@@ -1,6 +1,7 @@
 require 'pry'
+require 'terminal-table'
 
-require_relative('../lib/api')
+
 
 
 class Player 
@@ -16,7 +17,7 @@ class Player
             @@all
         end
     end
-    
+
     def self.all
         @@all
     end
@@ -32,10 +33,15 @@ class Player
       end
 
     
-    def self.find(input)
-        @@all.find do |player|
+    def self.find_by_name(input)
+        @@all.find do |input|
             player.name.downcase.include?(input.downcase)
         end
+    end
+
+    def self.rows
+        rows = [player_hash.keys]
+        rows << [player_hash.values]
     end
 
    

@@ -1,12 +1,11 @@
 require 'nokogiri'
 require 'open-uri'
 require 'pry'
-require 'httparty'
-require 'csv'
 require 'terminal-table'
 
 require_relative './player.rb'
-require_relative './api.rb'
+require_relative './team.rb'
+
 
 
 class Scraper
@@ -127,12 +126,12 @@ class Scraper
      end
     end
 
-        def self.roster
+        def self.roster(*input)
         doc5 = Nokogiri::HTML(open("https://www.basketball-reference.com/teams/NYK/2021.html"))
         doc5.css("#roster tr").collect do |tr| 
         player_hash = {}
         tr.children.each do |t|
-           if tr.text.include?("player.name.downcase")
+           if tr.text.include?(input)
                 player_hash = {
                     name: tr.children[1].text,
                     number: tr.children[0].text,

@@ -1,17 +1,14 @@
 require 'pry'
 require 'net/http'
-require 'awesome_print'
 require 'nokogiri'
 require 'open-uri'
-require 'httparty'
 require 'terminal-table'
 
-
-require_relative('./api')
 require_relative('./player')
 require_relative('./team')
 require_relative('./stats')
 require_relative('./scraper')
+require_relative('./salary')
 
 class Cli  
 
@@ -25,30 +22,32 @@ class Cli
             puts "Please select from the following"
             puts "1. Team info"
             puts "2. Player info"
-            puts "3. Player Stats"
+            puts "3. Player stats"
             puts "4. Exit"
             input = gets.strip
-             if input.downcase == "1" || "Team Info"
+             if ["1", "Team info"].include?(input.downcase)
                 self.knicks_info
-            elsif input.downcase == "2" || "Player Info"
-                self.player_queue
-            elsif input.downcase == "3" || "Player stats"
+            elsif ["2", "Player info"].include?(input.downcase)
+                self.player_info
+            elsif ["3", "Player stats"].include?(input.downcase) 
                 self.player_stats
-            elsif input.downcase == "4" || "Exit"
+            elsif ["4", "Exit"].include?(input.downcase)
                 self.goodbye
             else
-                # error handling
+                if ["1", "Team info", "2", "Player info", "3", "Player stats", "4", "Exit"].include?(input.downcase)
+                puts "Hexing and Vexing, that was a dubious selection.  Please try again."
+                self.prompt_selection
             
             end
                 end
-
+            end
 
         def knicks_info
             puts "Bounding and Astounding, here is a look at your 2020-2021 NY Knicks."
             puts "--------------------------------------------------------------------"
                             
-                                    Scraper.scrape_team_info
-                                
+                        self.display_team_info
+                         
             
 
 
@@ -58,16 +57,21 @@ class Cli
             puts "--------------------------------------------------------------"
             puts "--------------------------------------------------------------"
             input = gets.strip
-            if input.downcase == "1" || "Player info"
+            if ["1", "Player info"].include?(input.downcase)
+                self.knicks_info
+            elsif ["2", "Player stats"].include?(input.downcase)
                 self.player_info
-            elsif input.downcase == "2" || "Player stats"
+            elsif ["3", "Exit"].include?(input.downcase) 
                 self.player_stats
-            elsif input.downcase == "3" || "Exit"
+            elsif ["4", "Exit"].include?(input.downcase)
                 self.goodbye
             else
-                # "error handling"
-         end
-        end
+                if ["1", "Team info", "2", "Player info", "3", "Player stats", "4", "Exit"].include?(input.downcase)
+                puts "Hexing and Vexing, that was a dubious selection.  Please try again."
+                self.prompt_selection
+                end
+                 end
+                end
 
             def player_info
                 puts " A precocious vet or an auspicious neophyte? Which Knick with the Knack will tickle your fancy?"
@@ -83,20 +87,27 @@ class Cli
                     puts "3. View another player"
                     puts "4. Exit"
                     input = gets.strip
-                    if input == "1" || "Team info"
+                    if ["1", "Team info"].include?(input.downcase)
                         self.knicks_info
-                    elsif input == "2" || "Player stats"
-                        self.player_stats
-                    elsif input == "3" || "View another player"
+                    elsif ["2", "Player info"].include?(input.downcase)
                         self.player_info
-                    elsif input == "4" || "Exit"
+                    elsif ["3", "Player stats"].include?(input.downcase) 
+                        self.player_stats
+                    elsif ["4", "Exit"].include?(input.downcase)
                         self.goodbye
                     else
-                        puts "A dubious call hexes and vexes. Let's try again."
+                        if ["1", "Team info", "2", "Player info", "3", "Player stats", "4", "Exit"].include?(input.downcase)
+                        puts "Hexing and Vexing, that was a dubious selection.  Please try again."
                         self.prompt_selection
+                        end
                 end
             end
-        end
+        
+
+            def display_player(input)
+                Scraper.new.roster(input)
+                puts Terminal::Table.new rows: Player.rows
+            end
 
                 def player_stats
                     puts "Cruising and Bruising or Wheeling and Dealing?"
@@ -104,14 +115,17 @@ class Cli
                     puts "       Which set of stats do you prefer? "
                     puts " 1. Tradiitional   -   2. Advanced    -  3. Exit"
                         input = gets.strip  
-                    if input == "1" || "Traditional"
-                        self.traditional_stats
-                    elsif input == "2" || "Advanced"
-                        self.advanced_stats
-                    elsif input == "3" || "Exit"
-                        self.goodbye
-                    else
-                        # error handling
+                        if ["1", "Traditional"].include?(input.downcase)
+                            self.knicks_info
+                        elsif ["2", "Advanced"].include?(input.downcase)
+                            self.player_info
+                        elsif ["3", "Exit"].include?(input.downcase) 
+                            self.goodbye
+                        else
+                            if ["1", "Team info", "2", "Player info", "3", "Player stats", "4", "Exit"].include?(input.downcase)
+                            puts "Hexing and Vexing, that was a dubious selection.  Please try again."
+                            self.player_stats
+                    end
                 end
             end
 
@@ -140,6 +154,12 @@ class Cli
 
 
 
+                def display_team_info(team_hash)
+                    team_table = Terminal::Table.new do
+                        Team.rows = rows
+                    end
+                end
+
             # user enters in the name of a player and is given roster and salary info
 
             # prompt the user to select between another player, team info, player stats, exit.
@@ -165,6 +185,6 @@ class Cli
 
         #     prompt another player, team info, traditional stats, player info, exit
 
-        # end
-
+            end
+        
     end

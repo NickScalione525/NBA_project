@@ -1,3 +1,6 @@
+require 'terminal-table'
+
+
 class Salary
 
     @@all = []
