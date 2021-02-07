@@ -5,6 +5,7 @@ require 'nokogiri'
 require 'open-uri'
 require 'httparty'
 require 'terminal-table'
+require 'tty-table'
 
 
 require_relative('../lib/cli')

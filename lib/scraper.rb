@@ -11,29 +11,26 @@ class Scraper
         if Team.all.empty?
             doc = Nokogiri::HTML(open("https://www.basketball-reference.com/teams/NYK/2021.html"))
             doc2 = Nokogiri::HTML(open("https://www.basketball-reference.com/teams/NYK/"))
+            knicks_hash = {}
             team_hash = {}
             doc2.css("#info p").each do |x|
-                knicks_hash = {
-                    team_name: doc2.css("#info p").children[7].text.strip,
-                    location: doc2.css("#info p").children[4].text.strip,
-                    overall_record: doc2.css("#info p").children[13].text.strip,
-                    playoff_apearences: doc2.css("#info p").children[16].text.strip,
-                    championships: doc2.css("#info p").children[19].text.strip
-                }
-                doc.css("div[data-template='Partials/Teams/Summary'] p").each do |info|
-                    team_hash = {
-                        current_record: doc.css("div[data-template='Partials/Teams/Summary'] p").children[2].text.strip + " " + doc.css("div[data-template='Partials/Teams/Summary'] p").children[4].text.strip,
-                        coach: doc.css("div[data-template='Partials/Teams/Summary'] p").children[15].text.strip,
-                        executive: doc.css("div[data-template='Partials/Teams/Summary'] p").children[19].text.strip,
-                        pts_per_game: doc.css("div[data-template='Partials/Teams/Summary'] p").children[22].text.strip,
-                        opp_pts_per_game: doc.css("div[data-template='Partials/Teams/Summary'] p").children[24].text.strip,
-                        pace: doc.css("div[data-template='Partials/Teams/Summary'] p").children[29].text.strip,
-                        off_rtg: doc.css("div[data-template='Partials/Teams/Summary'] p").children[32].text.strip,
-                        def_rtg: doc.css("div[data-template='Partials/Teams/Summary'] p").children[34].text.strip,
-                        net_rtg: doc.css("div[data-template='Partials/Teams/Summary'] p").children[36].text.strip
-                    }
+                    knicks_hash[:team_name] = doc2.css("#info p").children[7].text.strip
+                    knicks_hash[:location] = doc2.css("#info p").children[4].text.strip
+                    knicks_hash[:overall_record] = doc2.css("#info p").children[13].text.strip
+                    knicks_hash[:playoff_apearences] = doc2.css("#info p").children[16].text.strip
+                    knicks_hash[:championships] = doc2.css("#info p").children[19].text.strip
+            doc.css("div[data-template='Partials/Teams/Summary'] p").each do |info|
+                    team_hash[:current_record] = doc.css("div[data-template='Partials/Teams/Summary'] p").children[2].text.strip + " " + doc.css("div[data-template='Partials/Teams/Summary'] p").children[4].text.strip
+                    team_hash [:coach] = doc.css("div[data-template='Partials/Teams/Summary'] p").children[15].text.strip
+                    team_hash [:executive] = doc.css("div[data-template='Partials/Teams/Summary'] p").children[19].text.strip
+                    team_hash [:pts_per_game] = doc.css("div[data-template='Partials/Teams/Summary'] p").children[22].text.strip
+                    team_hash [:opp_pts_per_game] = doc.css("div[data-template='Partials/Teams/Summary'] p").children[24].text.strip
+                    team_hash [:pace] = doc.css("div[data-template='Partials/Teams/Summary'] p").children[29].text.strip
+                    team_hash [:off_rtg] = doc.css("div[data-template='Partials/Teams/Summary'] p").children[32].text.strip
+                    team_hash [:def_rtg] = doc.css("div[data-template='Partials/Teams/Summary'] p").children[34].text.strip
+                    team_hash [:net_rtg] = doc.css("div[data-template='Partials/Teams/Summary'] p").children[36].text.strip
                     team_hash = knicks_hash.merge(team_hash)
-                    Team.new(team_hash)
+                    Cli.new.knicks_info(team_hash)
                 end
             end
         end
@@ -45,38 +42,37 @@ class Scraper
             traditional_hash = {}
             tr.children.each do |t|
                 if tr.text.include?("Randle")
-                    traditional_hash = {
-                        name: tr.children[1].text, 
-                        age: tr.children[2].text,
-                        games: tr.children[3].text,
-                        starts: tr.children[4].text,
-                        mpg: tr.children[5].text,
-                        fg: tr.children[6].text,
-                        fga: tr.children[7].text,
-                        fgperc: tr.children[8].text,
-                        threes_a_game: tr.children[9].text,
-                        threes_attempted: tr.children[10].text,
-                        three_percentage: tr.children[11].text,
-                        twos_a_game: tr.children[12].text,
-                        twos_attempted: tr.children[13].text,
-                        twos_percentage: tr.children[14].text,
-                        efg: tr.children[15].text,
-                        ft: tr.children[16].text,
-                        fta: tr.children[17].text,
-                        ft_percentage: tr.children[18].text,
-                        orb: tr.children[19].text,
-                        drb: tr.children[20].text,
-                        trb: tr.children[21].text,
-                        ast: tr.children[22].text,
-                        stl: tr.children[23].text,
-                        blk: tr.children[24].text,
-                        tov: tr.children[25].text, 
-                        pf: tr.children[26].text,
-                        pts: tr.children[27].text
-                    }
+                        traditional_hash[:name] = tr.children[1].text
+                        traditional_hash[:age] = tr.children[2].text
+                        traditional_hash[:games] = tr.children[3].text
+                        traditional_hash[:starts] = tr.children[4].text
+                        traditional_hash[:mpg] = tr.children[5].text
+                        traditional_hash[:fg] = tr.children[6].text
+                        traditional_hash[:fga] = tr.children[7].text
+                        traditional_hash[:fgperc] = tr.children[8].text
+                        traditional_hash[:threes_a_game] = tr.children[9].text
+                        traditional_hash[:threes_attempted] = tr.children[10].text
+                        traditional_hash[:three_percentage] = tr.children[11].text
+                        traditional_hash[:twos_a_game] = tr.children[12].text
+                        traditional_hash[:twos_attempted] = tr.children[13].text
+                        traditional_hash[:twos_percentage] = tr.children[14].text
+                        traditional_hash[:efg] = tr.children[15].text
+                        traditional_hash[:ft] = tr.children[16].text
+                        traditional_hash[:fta] = tr.children[17].text
+                        traditional_hash[:ft_percentage] = tr.children[18].text
+                        traditional_hash[:orb] = tr.children[19].text
+                        traditional_hash[:drb] = tr.children[20].text
+                        traditional_hash[:trb] = tr.children[21].text
+                        traditional_hash[:ast] = tr.children[22].text
+                        traditional_hash[:stl] = tr.children[23].text
+                        traditional_hash[:blk] = tr.children[24].text
+                        traditional_hash[:tov] = tr.children[25].text
+                        traditional_hash[:pf] = tr.children[26].text
+                        traditional_hash[:pts] = tr.children[27].text
                 end
             end    
             traditional_hash
+        end
     end
 
 
@@ -116,14 +112,14 @@ class Scraper
         end
     end
 
-    def roster
+    def roster(*input)
         doc5 = Nokogiri::HTML(open("https://www.basketball-reference.com/teams/NYK/2021.html"))
         doc5.css("#roster tr").collect do |tr| 
             player_hash = {}
             tr.children.each do |t|
-                if tr.text.include?(player)
+                if tr.text.include?(input.join("', '"))
                     player_hash[:name] = tr.children[1].text
-                    player_hash[:number] = tr.children[0].text
+                    player_hash[:number] = tr.children[0].text.to_i
                     player_hash[:position] = tr.children[2].text
                     player_hash[:height] = tr.children[3].text
                     player_hash[:weight] = tr.children[4].text
@@ -131,25 +127,26 @@ class Scraper
                     player_hash[:nationality] = tr.children[6].text
                     player_hash[:experience] = tr.children[7].text
                     player_hash[:college] = tr.children[8].text
+                    Cli.new.player_info(player_hash)
                 end
             end
-            player_hash
         end
     end
 
-    def player_salaries
+    def player_salaries(*input)
         salary_hash = {}
+        salary_array = []
         doc4 = Nokogiri::HTML(open("https://www.basketball-reference.com/contracts/NYK.html"))
-        doc4.css("#contracts tr").collect do |tr|
+        doc4.css("#contracts tbody").collect do |tr| 
             tr.children.each do |t|
-                if tr.text.include? ("Randle")
-                    salary_hash[:name] = tr.children[0].text,
-                    salary_hash[:age] = tr.children[1].text,
-                    salary_hash[:salary] = tr.children[2].text     
-                end
+            if tr.text.include?(input.join("', '"))
+                salary_hash[:player_name] = t.children[0].text
+            salary_hash[:player_salary] = t.children[2].text
+            Salary.new(salary_hash)
+            end
             end
         end
     end  
+
 end
 
-Scraper.new.traditional_player_stats

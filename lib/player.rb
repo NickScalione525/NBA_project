@@ -13,9 +13,9 @@ class Player
             player_hash.each do |key, value|
             self.class.attr_accessor(key)
             self.send(("#{key}="), value)
-            @@all << self unless @@all.include? self
-            @@all
-        end
+            @@all << self unless @@all.respond_to?("#{key}=")
+            end
+            
     end
 
     def self.all
@@ -35,7 +35,7 @@ class Player
     
     def self.find_by_name(input)
         @@all.find do |input|
-            player.name.downcase.include?(input.downcase)
+            player.name.include?(input.downcase)
         end
     end
 
@@ -43,6 +43,20 @@ class Player
         rows = [player_hash.keys]
         rows << [player_hash.values]
     end
+
+    def add_player_traditional_stats
+        t_stats_hash = NbaStats::Scraper.new.traditional_player_stats(self)
+        t_stats_hash.each do |key,value|
+          self.send("#{key}=", value)
+        end
+      end
+
+      def add_player_advanced_stats
+        a_stats_hash = NbaStats::Scraper.new.additional_player_stats(self)
+        a_stats_hash.each do |key,value|
+          self.send("#{key}=", value)
+        end
+      end
 
    
 end

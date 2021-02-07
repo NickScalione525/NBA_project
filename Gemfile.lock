@@ -17,12 +17,29 @@ GEM
     nokogiri (1.11.1-x86_64-linux)
       racc (~> 1.4)
     open-uri (0.1.0)
+    pastel (0.8.0)
+      tty-color (~> 0.5)
     pry (0.13.1)
       coderay (~> 1.1)
       method_source (~> 1.0)
     racc (1.5.2)
     rest-client (1.6.14)
       mime-types (~> 1.16)
+    strings (0.2.0)
+      strings-ansi (~> 0.2)
+      unicode-display_width (~> 1.5)
+      unicode_utils (~> 1.4)
+    strings-ansi (0.2.0)
+    terminal-table (3.0.0)
+      unicode-display_width (~> 1.1, >= 1.1.1)
+    tty-color (0.6.0)
+    tty-screen (0.8.1)
+    tty-table (0.12.0)
+      pastel (~> 0.8)
+      strings (~> 0.2.0)
+      tty-screen (~> 0.8)
+    unicode-display_width (1.7.0)
+    unicode_utils (1.4.0)
     unirest (1.1.2)
       addressable (~> 2.3.5)
       json (~> 1.8.1)
@@ -40,6 +57,8 @@ DEPENDENCIES
   nokogiri
   open-uri
   pry
+  terminal-table
+  tty-table
   unirest
 
 BUNDLED WITH

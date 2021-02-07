@@ -22,4 +22,8 @@ gem 'nokogiri'
 
 gem 'open-uri'
 
+gem 'tty-table'
+
+gem 'terminal-table'
+
 
