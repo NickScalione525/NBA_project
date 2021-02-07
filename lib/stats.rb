@@ -3,7 +3,7 @@ require 'pry'
 
 
 
-class Stats
+class Tstats
 
     @@all = []
 

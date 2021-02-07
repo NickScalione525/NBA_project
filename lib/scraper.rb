@@ -39,39 +39,38 @@ class Scraper
     def traditional_player_stats
         doc2 = Nokogiri::HTML(open("https://www.basketball-reference.com/teams/NYK/2021.html"))
         collection = doc2.css("#per_game t").collect do |t|
-            taditional_hash = {}
+            traditional = {}
             t.children.each do |t|
                 if t.text.include?("Randle")
-                        taditional_hash[:name] = t.children[1].text
-                        taditional_hash[:age] = t.children[2].text
-                        taditional_hash[:games] = t.children[3].text
-                        taditional_hash[:starts] = t.children[4].text
-                        taditional_hash[:mpg] = t.children[5].text
-                        taditional_hash[:fg] = t.children[6].text
-                        taditional_hash[:fga] = t.children[7].text
-                        taditional_hash[:fgperc] = t.children[8].text
-                        taditional_hash[:threes_a_game] = t.children[9].text
-                        taditional_hash[:threes_attempted] = t.children[10].text
-                        taditional_hash[:three_percentage] = t.children[11].text
-                        taditional_hash[:twos_a_game] = t.children[12].text
-                        taditional_hash[:twos_attempted] = t.children[13].text
-                        taditional_hash[:twos_percentage] = t.children[14].text
-                        taditional_hash[:efg] = t.children[15].text
-                        taditional_hash[:ft] = t.children[16].text
-                        taditional_hash[:fta] = t.children[17].text
-                        taditional_hash[:ft_percentage] = t.children[18].text
-                        taditional_hash[:orb] = t.children[19].text
-                        taditional_hash[:drb] = t.children[20].text
-                        taditional_hash[:tb] = t.children[21].text
-                        taditional_hash[:ast] = t.children[22].text
-                        taditional_hash[:stl] = t.children[23].text
-                        taditional_hash[:blk] = t.children[24].text
-                        taditional_hash[:tov] = t.children[25].text
-                        taditional_hash[:pf] = t.children[26].text
-                        taditional_hash[:pts] = t.children[27].text
+                        traditional[:name] = t.children[1].text
+                        traditional[:age] = t.children[2].text
+                        traditional[:games] = t.children[3].text
+                        traditional[:starts] = t.children[4].text
+                        traditional[:mpg] = t.children[5].text
+                        traditional[:fg] = t.children[6].text
+                        traditional[:fga] = t.children[7].text
+                        traditional[:fgperc] = t.children[8].text
+                        traditional[:threes_a_game] = t.children[9].text
+                        traditional[:threes_attempted] = t.children[10].text
+                        traditional[:three_percentage] = t.children[11].text
+                        traditional[:twos_a_game] = t.children[12].text
+                        traditional[:twos_attempted] = t.children[13].text
+                        traditional[:twos_percentage] = t.children[14].text
+                        traditional[:efg] = t.children[15].text
+                        traditional[:ft] = t.children[16].text
+                        traditional[:fta] = t.children[17].text
+                        traditional[:ft_percentage] = t.children[18].text
+                        traditional[:orb] = t.children[19].text
+                        traditional[:drb] = t.children[20].text
+                        traditional[:tb] = t.children[21].text
+                        traditional[:ast] = t.children[22].text
+                        traditional[:stl] = t.children[23].text
+                        traditional[:blk] = t.children[24].text
+                        traditional[:tov] = t.children[25].text
+                        traditional[:pf] = t.children[26].text
+                        traditional[:pts] = t.children[27].text
                 end
             end    
-            taditional_hash
         end
     end
 
@@ -133,20 +132,18 @@ class Scraper
         end
     end
 
-    def player_salaries
+    def player_salaries(*input)
         salary_hash = {}
         doc4 = Nokogiri::HTML(open("https://www.basketball-reference.com/contracts/NYK.html"))
-        doc4.css("#contacts tbody").collect do |t| 
+        doc4.css("#contracts tbody").collect do |t| 
             t.children.each do |t|
             if t.text.include?(input.join("', '"))
                 salary_hash[:player_name] = t.children[0].text
-            salary_hash[:player_salary] = t.children[2].text
-            Salary.new(salary_hash)
-            binding.pry
-            end
-            end
+                salary_hash[:player_salary] = t.children[2].text
+                Salary.new(salary_hash)
         end
+        end
+    end
     end  
 
 end
-Scraper.new.player_salaries

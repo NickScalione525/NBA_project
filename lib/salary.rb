@@ -11,6 +11,7 @@ class Salary
             salary_hash.each do |key, value|
             self.send(("#{key}="), value)
             @@all << self unless @@all.respond_to?("#{key}=")
+            Cli.new.player_salary(salary_hash)
         end
     end
 

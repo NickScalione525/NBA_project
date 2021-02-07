@@ -28,8 +28,7 @@ class Cli
             astats = Scraper.new.additional_player_stats
             self.player_stats
         elsif ["4", "Player salary"].include?(input)
-            new_salary = Scraper.new.player_salaries
-            self.player_salary(new_salary)
+            self.player_salary_prompt
         elsif ["5", "Exit"].include?(input)
             self.goodbye
         else
@@ -115,43 +114,112 @@ class Cli
                 puts "Experience: #{player_hash[:experience]}"
                 puts "College: #{player_hash[:college]}"
             puts "---------------------------------------------"
-            puts "-------------------------Where to next?----------------------------------"
-            puts "-------------------------------------------------------------------------"
-            puts " 1. Player info "   " 2. Player stats "   "3. Player salary  "   "4. Exit"
-            puts "-------------------------------------------------------------------------"
-            puts "-------------------------------------------------------------------------"
+            puts "-----------------------------Where to next?-----------------------------------"
+            puts "------------------------------------------------------------------------------"
+            puts " 1. Player info "" 2. Player stats ""3. Player salary ""4. Team info" "5. Exit"
+            puts "------------------------------------------------------------------------------"
+            puts "------------------------------------------------------------------------------"
             input = gets.strip
             if ["1", "Player info"].include?(input)
                 self.player_info_prompt
             elsif ["2", "Player stats"].include?(input)
-                self.player_stats
+                self.player_stats_prompt
             elsif ["3", "Player salary"].include?(input) 
-                self.player_salary
-            elsif ["4", "Exit"].include?(input)
+                self.player_salary_prompt
+            elsif ["4", "Team info"].include?(input) 
+                self.knicks_info
+            elsif ["5", "Exit"].include?(input)
                 self.goodbye
             else
                 if ["1", "Team info", "2", "Player info", "3", "Player stats", "4", "Exit"].include?(input)
                 puts "Hexing and Vexing, that was a dubious selection.  Please try again."
                 self.prompt_selection
             end
+        end
+    end
 
-
-            def player_salary
-                puts "What player's salary are you interested in?"
+            def player_salary_prompt
+                puts " "
+                puts "Folks, these guys are making a lot more than I did when i played, lets see who is making what this year"
+                puts "-----------------------------------------------------------------------------------------------"
+                puts "Julius Randle, RJ Barrett, Frank Ntilikina, Immanuel Quickley, Austin Rivers, Obi Toppin, Alec Burks"
+                puts " "
+                puts "Mitchell Robinson, Reggie Bullock, Ignas Brazdeikis, Nerlens Noel, Taj Gibson, Elrid Payton"
+                puts " "
+                puts "Theo Pinson, Dennis Smith Jr, Jared Harper, Kevin Knox"
+                puts "------------------------------------------------------------------------------------------------"
                 input = gets.strip
-                new_salary = Scraper.new.player_salaries(input)
-                if new_salary.include?(input)
-                    table = TTY::Table.new(["header1","header2"], [["#{name}", "#{salary}"]])
-                    puts table.render(:ascii)
-                elsif
-                    !new_salary.include?(input)
-                    puts "who is that?"
+                if input.include?("Julius Randle") || input.include?("RJ Barrett") || input.include?("Kevin Knox") || input.include?("Frank Ntilikina") || input.include?("Taj Gibson") || input.include?("Nerlens Noel") || input.include?("Mitchell Robinson") || input.include?("Obi Toppin") || input.include?("Ignas Brazdeikis") || input.include?("Austin Rivers") || input.include?("Reggie Bullock") || input.include?("Alec Burks") || input.include?("Elfrid Payton") || input.include?("Immanuel Quickley") || input.include?("Dennis Smith Jr") || input.include?("Jared Harper") || input.include?("Theo Pinson")
+                Scraper.new.player_salaries(input)
+                
+                else
+                    puts "Driving and Striving, but to no avail. Let's try that again"
+                    self.player_salary_prompt
                end
+            end
+
+            def player_salary(salary_hash)
+            puts "------------------------------------------------------------------------------"
+            puts " Player: #{salary_hash[:player_name]} - Salary: #{salary_hash[:player_salary]}"
+            puts "------------------------------------------------------------------------------"
+            puts " "
+            puts " "
+            puts "-----------------------------Where to next?-----------------------------------"
+            puts "------------------------------------------------------------------------------"
+            puts " 1. Player info "" 2. Player stats ""3. Player salary ""4. Team info" "5. Exit"
+            puts "------------------------------------------------------------------------------"
+            puts "------------------------------------------------------------------------------"
+            input = gets.strip
+            if ["1", "Player info"].include?(input)
+                self.player_info_prompt
+            elsif ["2", "Player stats"].include?(input)
+                self.player_stats_prompt
+            elsif ["3", "Player salary"].include?(input) 
+                self.player_salary_prompt
+            elsif ["4", "Team info"].include?(input) 
+                self.knicks_info
+            elsif ["5", "Exit"].include?(input)
+                self.goodbye
+            else
+                if ["1", "Player info", "2", "Player stats", "3", "Player salary", "4", "Team info", "5", "Exit"].include?(input)
+                puts "Hexing and Vexing, that was a dubious selection.  Please try again."
+                self.prompt_selection
             end
                 
        
     end
 end
+
+
+    def player_stats
+        puts " "
+        puts " Which Stats would you like to see, Traditional or Advanced?"
+        puts " "
+        input = gets.strip
+        if input == "Traditional" || input == "traditional"
+            self.tstats 
+        elsif input == "Advanced" || input == "advanced"
+            self.astats
+        end
+    end
+
+    def tstats
+        puts " "
+            puts " A precocious vet or an auspicious neophyte? Which Knick with the Knack will tickle your fancy?"
+            puts "-----------------------------------------------------------------------------------------------"
+            puts "Julius Randle, RJ Barrett, Frank Ntilikina, Immanuel Quickley, Austin Rivers, Obi Toppin, Alec Burks"
+            puts " "
+            puts "Mitchell Robinson, Reggie Bullock, Ignas Brazdeikis, Nerlens Noel, Taj Gibson, Elrid Payton"
+            puts " "
+            puts "Theo Pinson, Dennis Smith Jr, Jared Harper, Kevin Knox"
+            puts "------------------------------------------------------------------------------------------------"
+            input = gets.strip
+            if input.include?("Julius Randle") || input.include?("RJ Barrett") || input.include?("Kevin Knox") || input.include?("Frank Ntilikina") || input.include?("Taj Gibson") || input.include?("Nerlens Noel") || input.include?("Mitchell Robinson") || input.include?("Obi Toppin") || input.include?("Ignas Brazdeikis") || input.include?("Austin Rivers") || input.include?("Reggie Bullock") || input.include?("Alec Burks") || input.include?("Elfrid Payton") || input.include?("Immanuel Quickley") || input.include?("Dennis Smith Jr") || input.include?("Jared Harper") || input.include?("Theo Pinson")
+            Scraper.new.player_traditional_stats(input)
+            else
+                puts "Hmmmm, a most dubious call indeed.Take the ball out again"
+                self.player_info_prompt
+
       
 end
  
