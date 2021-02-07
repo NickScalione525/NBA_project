@@ -36,9 +36,9 @@ class Scraper
         end
     end
 
-    def traditional_hash_player_stats(*input)
+    def traditional_player_stats(*input)
         doc2 = Nokogiri::HTML(open("https://www.basketball-reference.com/teams/NYK/2021.html"))
-        collection = doc2.css("#per_game t").collect do |t|
+        collection = doc2.css("#per_game tbody").collect do |t|
             traditional_hash = {}
             t.children.each do |t|
                 if t.text.include?(input.join("', '"))

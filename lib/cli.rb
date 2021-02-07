@@ -24,8 +24,6 @@ class Cli
         elsif ["2", "Player info"].include?(input)
             self.player_info_prompt
         elsif ["3", "Player stats"].include?(input)
-            tstats = Scraper.new.traditional_player_stats
-            astats = Scraper.new.additional_player_stats
             self.player_stats
         elsif ["4", "Player salary"].include?(input)
             self.player_salary_prompt
@@ -215,14 +213,72 @@ end
             puts "------------------------------------------------------------------------------------------------"
             input = gets.strip
             if input.include?("Julius Randle") || input.include?("RJ Barrett") || input.include?("Kevin Knox") || input.include?("Frank Ntilikina") || input.include?("Taj Gibson") || input.include?("Nerlens Noel") || input.include?("Mitchell Robinson") || input.include?("Obi Toppin") || input.include?("Ignas Brazdeikis") || input.include?("Austin Rivers") || input.include?("Reggie Bullock") || input.include?("Alec Burks") || input.include?("Elfrid Payton") || input.include?("Immanuel Quickley") || input.include?("Dennis Smith Jr") || input.include?("Jared Harper") || input.include?("Theo Pinson")
-            Scraper.new.player_traditional_stats(input)
+            Scraper.new.traditional_player_stats(input)
             else
                 puts "Hmmmm, a most dubious call indeed.Take the ball out again"
                 self.player_info_prompt
+            end
+        end
 
-      
+        def tstats_display(traditional_hash)
+            puts ""
+            puts "Name: #{traditional_hash[:name]}"
+            puts "Age: #{traditional_hash[:age]}"
+            puts "G: #{traditional_hash[:games]}"
+            puts "GS: #{traditional_hash[:starts]}"
+            puts "MPG: #{traditional_hash[:mpg]}"
+            puts "FG: #{traditional_hash[:fg]}"
+            puts "FGA: #{traditional_hash[:fga]}"
+            puts "FG%: #{traditional_hash[:fgperc]}"
+            puts "3P: #{traditional_hash[:threes_a_game]}"
+            puts "3PA: #{traditional_hash[:threes_attempted]}"
+            puts "3P%: #{traditional_hash[:three_percentage]}"
+            puts "2P: #{traditional_hash[:twos_a_game]}"
+            puts "2PA: #{traditional_hash[:twos_attempted]}"
+            puts "2P%: #{traditional_hash[:twos_percentage]}"
+            puts "EFG%: #{traditional_hash[:efg]}"
+            puts "FT: #{traditional_hash[:ft]}"
+            puts "FTA: #{traditional_hash[:fta]}"
+            puts "FT%: #{traditional_hash[:ft_percentage]}"
+            puts "Offensive Rebounds: #{traditional_hash[:orb]}"
+            puts "Defensive Rebounds: #{traditional_hash[:drb]}"
+            puts "Total Rebounds: #{traditional_hash[:trb]}"
+            puts "Assist: #{traditional_hash[:ast]}"
+            puts "Steals: #{traditional_hash[:stl]}"
+            puts "Blocks: #{traditional_hash[:blk]}"
+            puts "Turnovers: #{traditional_hash[:tov]}"
+            puts "PFs: #{traditional_hash[:pf]}"
+            puts "PPG: #{traditional_hash[:pts]}"
+        puts "------------------------------------------------------------------------------"
+        puts ""
+        puts "------------------------------------------------------------------------------"
+        puts " "
+        puts " "
+        puts "-----------------------------Where to next?-----------------------------------"
+        puts "------------------------------------------------------------------------------"
+        puts " 1. Player info "" 2. Player stats ""3. Player salary ""4. Team info" "5. Exit"
+        puts "------------------------------------------------------------------------------"
+        puts "------------------------------------------------------------------------------"
+        input = gets.strip
+        if ["1", "Player info"].include?(input)
+            self.player_info_prompt
+        elsif ["2", "Player stats"].include?(input)
+            self.player_stats_prompt
+        elsif ["3", "Player salary"].include?(input) 
+            self.player_salary_prompt
+        elsif ["4", "Team info"].include?(input) 
+            self.knicks_info
+        elsif ["5", "Exit"].include?(input)
+            self.goodbye
+        else
+            if ["1", "Player info", "2", "Player stats", "3", "Player salary", "4", "Team info", "5", "Exit"].include?(input)
+            puts "Hexing and Vexing, that was a dubious selection.  Please try again."
+            self.prompt_selection
+        end
+
+    end 
 end
- 
+end
 
 
 
