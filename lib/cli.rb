@@ -22,15 +22,14 @@ class Cli
             knicks = Scraper.new.scrape_team_info
             self.knicks_info(knicks)
         elsif ["2", "Player info"].include?(input)
-            new_knick = Scraper.new.roster(new_knick)
-            self.player_info_prompt(new_knick)
+            self.player_info_prompt
         elsif ["3", "Player stats"].include?(input)
             tstats = Scraper.new.traditional_player_stats
             astats = Scraper.new.additional_player_stats
             self.player_stats
         elsif ["4", "Player salary"].include?(input)
             new_salary = Scraper.new.player_salaries
-            self.player_salary
+            self.player_salary(new_salary)
         elsif ["5", "Exit"].include?(input)
             self.goodbye
         else
@@ -48,7 +47,7 @@ class Cli
                 puts " "
                 puts "the #{team_hash[:team_name]} currently have a record of #{team_hash[:current_record]}."
                 puts " "
-                puts "Overall, they have a #{team_hash[:overall_record]} overall record since their inception"
+                puts "Overall, they have a #{team_hash[:overall_record]}1 record since their inception"
                 puts " "
                 puts "with #{team_hash[:playoff_apearences]} playoff appeareances and #{team_hash[:championships]} championships."
                 puts " "
@@ -71,8 +70,7 @@ class Cli
         puts "-------------------------------------------------------------------------"
         input = gets.strip
         if ["1", "Player info"].include?(input)
-            Scraper.new.roster(input)
-            self.player_info_prompt(input)
+            self.player_info_prompt
         elsif ["2", "Player stats"].include?(input)
             self.player_stats
         elsif ["3", "Player salary"].include?(input) 
@@ -87,7 +85,8 @@ class Cli
     end
     end
 
-        def player_info_prompt(input)
+        def player_info_prompt
+            puts " "
             puts " A precocious vet or an auspicious neophyte? Which Knick with the Knack will tickle your fancy?"
             puts "-----------------------------------------------------------------------------------------------"
             puts "Julius Randle, RJ Barrett, Frank Ntilikina, Immanuel Quickley, Austin Rivers, Obi Toppin, Alec Burks"
@@ -95,16 +94,66 @@ class Cli
             puts "Mitchell Robinson, Reggie Bullock, Ignas Brazdeikis, Nerlens Noel, Taj Gibson, Elrid Payton"
             puts " "
             puts "Theo Pinson, Dennis Smith Jr, Jared Harper, Kevin Knox"
+            puts "------------------------------------------------------------------------------------------------"
             input = gets.strip
-            Scraper.new.roster.include?(input)
-            self.player_info(input)
-        end
-
-        def player_info(player_hash)
-               puts "#{player_hash}"
+            if input.include?("Julius Randle") || input.include?("RJ Barrett") || input.include?("Kevin Knox") || input.include?("Frank Ntilikina") || input.include?("Taj Gibson") || input.include?("Nerlens Noel") || input.include?("Mitchell Robinson") || input.include?("Obi Toppin") || input.include?("Ignas Brazdeikis") || input.include?("Austin Rivers") || input.include?("Reggie Bullock") || input.include?("Alec Burks") || input.include?("Elfrid Payton") || input.include?("Immanuel Quickley") || input.include?("Dennis Smith Jr") || input.include?("Jared Harper") || input.include?("Theo Pinson")
+            Scraper.new.roster(input)
+            else
+                puts "Hmmmm, a most dubious call indeed.Take the ball out again"
+                self.player_info_prompt
         end
     end
-    
+        def player_info(player_hash)
+            puts "--------------------------------------------"
+                puts "Player: #{player_hash[:name]}" 
+                puts "Number: #{player_hash[:number]}"
+                puts "Position: #{player_hash[:position]}" 
+                puts "Height: #{player_hash[:height]}"
+                puts "Weight: #{player_hash[:weight]}" 
+                puts "Birthdate: #{player_hash[:birthdate]}"
+                puts "Nationality: #{player_hash[:nationality]}" 
+                puts "Experience: #{player_hash[:experience]}"
+                puts "College: #{player_hash[:college]}"
+            puts "---------------------------------------------"
+            puts "-------------------------Where to next?----------------------------------"
+            puts "-------------------------------------------------------------------------"
+            puts " 1. Player info "   " 2. Player stats "   "3. Player salary  "   "4. Exit"
+            puts "-------------------------------------------------------------------------"
+            puts "-------------------------------------------------------------------------"
+            input = gets.strip
+            if ["1", "Player info"].include?(input)
+                self.player_info_prompt
+            elsif ["2", "Player stats"].include?(input)
+                self.player_stats
+            elsif ["3", "Player salary"].include?(input) 
+                self.player_salary
+            elsif ["4", "Exit"].include?(input)
+                self.goodbye
+            else
+                if ["1", "Team info", "2", "Player info", "3", "Player stats", "4", "Exit"].include?(input)
+                puts "Hexing and Vexing, that was a dubious selection.  Please try again."
+                self.prompt_selection
+            end
+
+
+            def player_salary
+                puts "What player's salary are you interested in?"
+                input = gets.strip
+                new_salary = Scraper.new.player_salaries(input)
+                if new_salary.include?(input)
+                    table = TTY::Table.new(["header1","header2"], [["#{name}", "#{salary}"]])
+                    puts table.render(:ascii)
+                elsif
+                    !new_salary.include?(input)
+                    puts "who is that?"
+               end
+            end
+                
+       
+    end
+end
+      
+end
  
 
 
@@ -116,25 +165,14 @@ class Cli
 
 
 
+      # elsif !player_hash.include?("Theo Pinson" || "Dennis Smith Jr" || "Jared Harper" || "Kevin Knox" || "Mitchell Robinson" || "Reggie Bullock" || "Ignas Brazdeikis" "Nerlens Noel" || "Taj Gibson" || "Elrid Payton" || "Julius Randle" || "RJ Barrett" || "Frank Ntilikina" || "Immanuel Quickley" || "Austin Rivers" || "Obi Toppin" || "Alec Burks")
+            #     puts "Hmmmmm who is that?"
+
+
+       
 
 
 
-
-
-
-
-#      def player_salary
-#         puts "What player's salary are you interested in?"
-#         input = gets.strip
-#         new_salary = Scraper.new.player_salaries(input)
-#         if new_salary.include?(input)
-#             table = TTY::Table.new(["header1","header2"], [["#{name}", "#{salary}"]])
-#             puts table.render(:ascii)
-#         elsif
-#             !new_salary.include?(input)
-#             puts "who is that?"
-#        end
-#     end
 
 
 

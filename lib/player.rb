@@ -5,15 +5,16 @@ require 'terminal-table'
 
 
 class Player 
+  attr_accessor :name, :number, :position, :height, :weight, :birthdate, :nationality, :expierence, :college
 
     @@all = []
         
 
     def initialize(player_hash)
             player_hash.each do |key, value|
-            self.class.attr_accessor(key)
             self.send(("#{key}="), value)
             @@all << self unless @@all.respond_to?("#{key}=")
+            Cli.new.player_info(player_hash)
             end
             
     end
