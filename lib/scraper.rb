@@ -30,18 +30,18 @@ class Scraper
                     team_hash [:def_rtg] = doc.css("div[data-template='Partials/Teams/Summary'] p").children[34].text.strip
                     team_hash [:net_rtg] = doc.css("div[data-template='Partials/Teams/Summary'] p").children[36].text.strip
                     team_hash = knicks_hash.merge(team_hash)
-                    Cli.new.knicks_info(team_hash)
                 end
             end
         end
+        Team.new(team_hash)
     end
 
-    def traditional_player_stats(*input)
+    def traditional_player_stats(player)
         doc2 = Nokogiri::HTML(open("https://www.basketball-reference.com/teams/NYK/2021.html"))
-        collection = doc2.css("#per_game tbody").collect do |t|
-            traditional_hash = {}
+        traditional_hash = {}
+        collection = doc2.css("#per_game tbody").each do |t|
             t.children.each do |t|
-                if t.text.include?(input.join("', '"))
+                if t.text.include?(player.name)
                         traditional_hash[:name] = t.children[1].text
                         traditional_hash[:age] = t.children[2].text
                         traditional_hash[:games] = t.children[3].text
@@ -69,19 +69,21 @@ class Scraper
                         traditional_hash[:tov] = t.children[25].text
                         traditional_hash[:pf] = t.children[26].text
                         traditional_hash[:pts] = t.children[27].text
-                        Tstats.new(traditional_hash)
+                      
                 end
             end    
         end
+        Tstats.new(traditional_hash)
     end
 
 
-    def advanced_player_stats(*input)
+    def advanced_player_stats(input)
         doc3 = Nokogiri::HTML(open("https://www.basketball-reference.com/teams/NYK/2021.html"))
-        set = doc3.css("#advanced tbody").collect do |t| 
-            advanced_hash = {}
+        advanced_hash = {}
+        set = doc3.css("#advanced tbody").each do |t| 
+           
             t.children.each do |t|
-                if t.text.include?(input.join("', '"))
+                if t.text.include?(input)
                         advanced_hash[:name] = t.children[1].text
                         advanced_hash[:age] = t.children[2].text
                         advanced_hash[:games] = t.children[3].text
@@ -106,18 +108,18 @@ class Scraper
                         advanced_hash[:DBPM] = t.children[24].text
                         advanced_hash[:BPM] = t.children[25].text
                         advanced_hash[:VORP] = t.children[26].text
-                        Astats.new(advanced_hash)
                 end
             end    
         end
+        Astats.new(advanced_hash)
     end
 
-    def roster(*input)
+    def roster(input)
         doc5 = Nokogiri::HTML(open("https://www.basketball-reference.com/teams/NYK/2021.html"))
-        doc5.css("#roster tbody").collect do |t| 
-            player_hash = {}
+        player_hash = {}
+        doc5.css("#roster tbody").each do |t| 
             t.children.each do |t|
-                if t.text.include?(input.join("', '"))
+                if t.text.include?(input)
                     player_hash[:name] = t.children[1].text
                     player_hash[:number] = t.children[0].text
                     player_hash[:position] = t.children[2].text
@@ -127,10 +129,10 @@ class Scraper
                     player_hash[:nationality] = t.children[6].text.upcase
                     player_hash[:experience] = t.children[7].text
                     player_hash[:college] = t.children[8].text
-                    Player.new(player_hash)
                 end
             end
         end
+        Player.new(player_hash)
     end
 
     def player_salaries(*input)

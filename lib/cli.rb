@@ -15,8 +15,8 @@ class Cli
         puts "Please select from the following"
         puts "1. Team info"
         puts "2. Player info"
-        puts "3. Player stats"
-        puts "4. Player salary"
+        # puts "3. Player stats"
+        # puts "4. Player salary"
         puts "5. Exit"
         input = gets.strip
         if ["1", "Team info"].include?(input)
@@ -24,10 +24,10 @@ class Cli
             self.knicks_info(knicks)
         elsif ["2", "Player info"].include?(input)
             self.player_info_prompt
-        elsif ["3", "Player stats"].include?(input)
-            self.player_stats
-        elsif ["4", "Player salary"].include?(input)
-            self.player_salary_prompt
+        # elsif ["3", "Player stats"].include?(input)
+        #     self.player_stats
+        # elsif ["4", "Player salary"].include?(input)
+        #     self.player_salary_prompt
         elsif ["5", "Exit"].include?(input)
             abort "Go Knicks"
         else
@@ -36,28 +36,29 @@ class Cli
          end
     end
 
-        def knicks_info(team_hash)
+        def knicks_info(team)
+            binding.pry
         puts "Bounding and Astounding, here is a look at your 2020-2021 NY Knicks."
         puts "--------------------------------------------------------------------"
-                puts "The #{team_hash[:team_name]}play in #{team_hash[:number]}."
+                puts "The #{team.team_name} play in #{team.location}."
                 puts " "
-                puts "Coached by #{team_hash[:coach]} with #{team_hash[:executive]} running the Front Office"
+                puts "Coached by #{team.coach} with #{team.executive} running the Front Office"
                 puts " "
-                puts "the #{team_hash[:team_name]} currently have a record of #{team_hash[:current_record]}."
+                puts "the #{team.team_name} currently have a record of #{team.current_record}."
                 puts " "
-                puts "Overall, they have a #{team_hash[:overall_record]}1 record since their inception"
+                puts "Overall, they have a #{team.overall_record}1 record since their inception"
                 puts " "
-                puts "with #{team_hash[:playoff_apearences]} playoff appeareances and #{team_hash[:championships]} championships."
+                puts "with #{team.playoff_apearences} playoff appeareances and #{team.championships} championships."
                 puts " "
-                puts "Their offense currently generates #{team_hash[:pts_per_game]} points per game"
+                puts "Their offense currently generates #{team.pts_per_game} points per game"
                 puts " "
-                puts "while their defense holds teams to #{team_hash[:opp_pts_per_game]} points per game."
+                puts "while their defense holds teams to #{team.opp_pts_per_game} points per game."
                 puts " "
-                puts "The Knicks pace of play is #{team_hash[:pace]} and their Off/Def/Net ratings are as follows"
+                puts "The Knicks pace of play is #{team.pace} and their Off/Def/Net ratings are as follows"
                 puts " "
-                puts "Offensive rating = #{team_hash[:off_rtg]}, Defensive rating = #{team_hash[:def_rtg]} and"
+                puts "Offensive rating = #{team.off_rtg}, Defensive rating = #{team.def_rtg} and"
                 puts " "
-                puts "Net rating = #{team_hash[:net_rtg]}."
+                puts "Net rating = #{team.net_rtg}."
                 puts " "
                    
 
@@ -95,23 +96,25 @@ class Cli
             puts "------------------------------------------------------------------------------------------------"
             input = gets.strip
             if input.include?("Julius Randle") || input.include?("RJ Barrett") || input.include?("Kevin Knox") || input.include?("Frank Ntilikina") || input.include?("Taj Gibson") || input.include?("Nerlens Noel") || input.include?("Mitchell Robinson") || input.include?("Obi Toppin") || input.include?("Ignas Brazdeikis") || input.include?("Austin Rivers") || input.include?("Reggie Bullock") || input.include?("Alec Burks") || input.include?("Elfrid Payton") || input.include?("Immanuel Quickley") || input.include?("Dennis Smith Jr") || input.include?("Jared Harper") || input.include?("Theo Pinson")
-            Scraper.new.roster(input)
+            player = Scraper.new.roster(input)
+            self.player_info(player)
             else
                 puts "Hmmmm, a most duheightus call indeed.Take the ball out again"
                 self.player_info_prompt
         end
     end
-        def player_info(player_hash)
+        def player_info(player)
+            binding.pry
             puts "--------------------------------------------"
-                puts "Name: #{player_hash[:name]}" 
-                puts "Number: #{player_hash[:number]}"
-                puts "Position: #{player_hash[:position]}" 
-                puts "Height: #{player_hash[:height]}"
-                puts "Weight: #{player_hash[:weight]}" 
-                puts "Birthdate: #{player_hash[:birthdate]}"
-                puts "Nationality: #{player_hash[:nationality]}" 
-                puts "Experience: #{player_hash[:experience]}"
-                puts "College: #{player_hash[:college]}"
+                puts "Name: #{player.name}" 
+                puts "Number: #{player.number}"
+                puts "Position: #{player.position}" 
+                puts "Height: #{player.height}"
+                puts "Weight: #{player.weight}" 
+                puts "Birthdate: #{player.birthdate}"
+                puts "Nationality: #{player.nationality}" 
+                puts "Experience: #{player.experience}"
+                puts "College: #{player.college}"
             puts "---------------------------------------------"
             puts "-----------------------------Where to next?-----------------------------------"
             puts "------------------------------------------------------------------------------"
@@ -190,38 +193,39 @@ class Cli
 end
 
 
-    def player_stats
+    def player_stats(player)
         puts " "
         puts " Which Stats would you like to see, Traditional or Advanced?"
         puts " "
         input = gets.strip
         if input == "Traditional" || input == "traditional"
-            self.tstats 
+            self.tstats(player) 
         elsif input == "Advanced" || input == "advanced"
-            self.astats
+            self.astats(player)
         end
     end
 
-    def tstats
-        puts " "
-            puts " A precocious vet or an auspicious neophyte? Which Knick with the Knack will tickle your fancy?"
-            puts "-----------------------------------------------------------------------------------------------"
-            puts "Julius Randle, RJ Barrett, Frank Ntilikina, Immanuel Quickley, Austin Rivers, Obi Toppin, Alec Burks"
-            puts " "
-            puts "Mitchell Robinson, Reggie Bullock, Ignas Brazdeikis, Nerlens Noel, Taj Gibson, Elrid Payton"
-            puts " "
-            puts "Theo Pinson, Dennis Smith Jr, Jared Harper, Kevin Knox"
-            puts "------------------------------------------------------------------------------------------------"
-            input = gets.strip
-            if input.include?("Julius Randle") || input.include?("RJ Barrett") || input.include?("Kevin Knox") || input.include?("Frank Ntilikina") || input.include?("Taj Gibson") || input.include?("Nerlens Noel") || input.include?("Mitchell Robinson") || input.include?("Obi Toppin") || input.include?("Ignas Brazdeikis") || input.include?("Austin Rivers") || input.include?("Reggie Bullock") || input.include?("Alec Burks") || input.include?("Elfrid Payton") || input.include?("Immanuel Quickley") || input.include?("Dennis Smith Jr") || input.include?("Jared Harper") || input.include?("Theo Pinson")
-            Scraper.new.traditional_player_stats(input)
+    def tstats(player)
+        # puts " "
+        #     puts " A precocious vet or an auspicious neophyte? Which Knick with the Knack will tickle your fancy?"
+        #     puts "-----------------------------------------------------------------------------------------------"
+        #     puts "Julius Randle, RJ Barrett, Frank Ntilikina, Immanuel Quickley, Austin Rivers, Obi Toppin, Alec Burks"
+        #     puts " "
+        #     puts "Mitchell Robinson, Reggie Bullock, Ignas Brazdeikis, Nerlens Noel, Taj Gibson, Elrid Payton"
+        #     puts " "
+        #     puts "Theo Pinson, Dennis Smith Jr, Jared Harper, Kevin Knox"
+        #     puts "------------------------------------------------------------------------------------------------"
+        #     input = gets.strip
+        #     if input.include?("Julius Randle") || input.include?("RJ Barrett") || input.include?("Kevin Knox") || input.include?("Frank Ntilikina") || input.include?("Taj Gibson") || input.include?("Nerlens Noel") || input.include?("Mitchell Robinson") || input.include?("Obi Toppin") || input.include?("Ignas Brazdeikis") || input.include?("Austin Rivers") || input.include?("Reggie Bullock") || input.include?("Alec Burks") || input.include?("Elfrid Payton") || input.include?("Immanuel Quickley") || input.include?("Dennis Smith Jr") || input.include?("Jared Harper") || input.include?("Theo Pinson")
+            Scraper.new.traditional_player_stats(player)
+            self.tstats_display(player)
             else
                 puts "Hmmmm, a most duheightus call indeed.Take the ball out again"
                 self.player_info_prompt
             end
         end
 
-        def tstats_display(traditional_hash)
+        def tstats_display(player)
             puts ""
             puts "Name: #{traditional_hash[:name]}"
             puts "Age: #{traditional_hash[:age]}"

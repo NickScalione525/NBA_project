@@ -4,7 +4,7 @@ require 'pry'
 
 
 class Tstats
-  attr_accessor :name, :age, :games, :starts, :mpg, :fg, :fga, :fga, :fgperc, :threes_a_game, :threes_attempted, :three_percentage, :twos_a_game, :twos_attempted, :twos_percentage, :efg, :ft, :fta, :ft_percentage, :orb, :drb, :tb, :ast, :stl, :blk, :tov, :pf, :pts
+  attr_accessor :name
 
   @@all = []
 

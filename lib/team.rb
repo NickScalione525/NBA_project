@@ -15,12 +15,13 @@ class Team
     
     @@all = []
 
-    def initialize(*team_hash)
+    def initialize(team_hash)
             team_hash.each do |key, value|
-            self.send("#{key}=", value)
-            @@all << self unless @@all.respond_to?("#{key}=")
+            self.send("#{key}=", value) if self.respond_to?("#{key}=") 
             end
+            @@all << self 
         end
+
 
 
     
