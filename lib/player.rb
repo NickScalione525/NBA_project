@@ -24,7 +24,7 @@ class Player
     end
 
     def self.create_player(player_array)
-        player_array.each do |player|
+        player_array.each do |player_hash|
             Player.new(player)
         end
     end

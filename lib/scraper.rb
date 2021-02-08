@@ -78,38 +78,37 @@ class Scraper
 
     def advanced_player_stats(*input)
         doc3 = Nokogiri::HTML(open("https://www.basketball-reference.com/teams/NYK/2021.html"))
-        set = doc3.css("#advanced t").collect do |t| 
+        set = doc3.css("#advanced tbody").collect do |t| 
             advanced_hash = {}
             t.children.each do |t|
                 if t.text.include?(input.join("', '"))
-                        advanced_hash[:name] = t.children[1].text,
-                        advanced_hash[:age] = t.children[2].text,
-                        advanced_hash[:games] = t.children[3].text,
-                        advanced_hash[:MP] = t.children[4].text,
-                        advanced_hash[:PER] = t.children[5].text,
-                        advanced_hash[:TS] = t.children[6].text,
-                        advanced_hash[:three_rate] = t.children[7].text,
-                        advanced_hash[:Ft] = t.children[8].text,
-                        advanced_hash[:ORB_percentage] = t.children[9].text,
-                        advanced_hash[:DRB_percentage] = t.children[10].text,
-                        advanced_hash[:tB_percentage] = t.children[11].text,
-                        advanced_hash[:AST_percentage] = t.children[12].text,
-                        advanced_hash[:STL_percentage] = t.children[13].text,
-                        advanced_hash[:BLK_percentage] = t.children[14].text,
-                        advanced_hash[:TOV_percentage] = t.children[15].text,
-                        advanced_hash[:USG] = t.children[16].text,
-                        advanced_hash[:OWS] = t.children[18].text,
-                        advanced_hash[:DWS] = t.children[19].text,
-                        advanced_hash [:WS] = t.children[20].text,
-                        advanced_hash[:WS_per_forty_eight] = t.children[21].text,
-                        advanced_hash[:OBPM] = t.children[23].text,
-                        advanced_hash[:DBPM] = t.children[24].text,
-                        advanced_hash[:BPM] = t.children[25].text,
+                        advanced_hash[:name] = t.children[1].text
+                        advanced_hash[:age] = t.children[2].text
+                        advanced_hash[:games] = t.children[3].text
+                        advanced_hash[:MP] = t.children[4].text
+                        advanced_hash[:PER] = t.children[5].text
+                        advanced_hash[:TS] = t.children[6].text
+                        advanced_hash[:three_rate] = t.children[7].text
+                        advanced_hash[:Ft] = t.children[8].text
+                        advanced_hash[:ORB_percentage] = t.children[9].text
+                        advanced_hash[:DRB_percentage] = t.children[10].text
+                        advanced_hash[:tB_percentage] = t.children[11].text
+                        advanced_hash[:AST_percentage] = t.children[12].text
+                        advanced_hash[:STL_percentage] = t.children[13].text
+                        advanced_hash[:BLK_percentage] = t.children[14].text
+                        advanced_hash[:TOV_percentage] = t.children[15].text
+                        advanced_hash[:USG] = t.children[16].text
+                        advanced_hash[:OWS] = t.children[18].text
+                        advanced_hash[:DWS] = t.children[19].text
+                        advanced_hash[:WS] = t.children[20].text
+                        advanced_hash[:WS_per_forty_eight] = t.children[21].text
+                        advanced_hash[:OBPM] = t.children[23].text
+                        advanced_hash[:DBPM] = t.children[24].text
+                        advanced_hash[:BPM] = t.children[25].text
                         advanced_hash[:VORP] = t.children[26].text
                         Astats.new(advanced_hash)
                 end
             end    
-            advanced_hash
         end
     end
 

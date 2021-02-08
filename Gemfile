@@ -8,22 +8,10 @@ git_source(:github) {|repo_name| "https://github.com/#{repo_name}" }
 
 gem 'pry'
 
-gem 'net-http'
-
-gem 'unirest'
-
-gem 'json'
-
-gem 'httparty'
-
-gem 'awesome_print'
-
 gem 'nokogiri'
 
 gem 'open-uri'
 
-gem 'tty-table'
-
-gem 'terminal-table'
+gem 'colorize'
 
 

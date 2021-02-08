@@ -1,37 +1,15 @@
-    def teams
-        puts "Atlanta Hawks" "----------------------------" "Miami Heat"
-        puts "Boston Celtics" "---------------------------" "Milwaukee Bucks"  
-        puts "Brooklyn Nets" "----------------------------" "Minnesota Timberwolves"
-        puts "Charlotte Hornets" "------------------------"  "New Orleans Pelicans"
-        puts "Chicago Bulls" "----------------------------"       "New York Knicks"
-        puts "Cleveland Cavaliers" "----------------------"      "Oklahoma City Thunder"                             
-        puts "Dallas Mavericks" "-------------------------"      "Orlando Magic"                       
-        puts "Denver Nuggets" "---------------------------"      "Philadelphia 76ers"                          
-        puts "Detroit Pistons" "--------------------------"      "Phoenix Suns"                      
-        puts "Golden State Warriors" "--------------------"      "Portland Trail Blazers"
-        puts "Houston Rockets" "--------------------------"     "Sacramento Kings"
-        puts "Indiana Pacers" "---------------------------"      "San Antonio Spurs"
-        puts "Los Angeles Clippers" "---------------------"     "Toronto Raptors"
-        puts "Los Angeles Lakers" "-----------------------"     "Utah Jazz"
-        puts "Memphis Grizzlies" "------------------------"     "Washington Wizards"                             
-        puts "------------------------------------------------------------------------"
+KnicksWorld
 
-Randle = 387
-    Barrett = 666423
-    Toppin = 3547243
-    Quickley = 3547269
-    Burks = 77
-    Rivers = 393
-    Payton = 369
-    Frank = 347
-    Iggy = 666464
-    Bullock = 75
-    Robinson = 399
-    Noel = 345
-    Gibson = 173
-    Knox = 259
-    Smith = 421
+This is an CLI about our beloved NY Knicks.  Here you can view info not only about the Knicks team but also about its players including general info and two sets of stats, per36 and Advanced. You can also see the salary for each player.
 
+Pre-requisites
+Written with the Ruby language, instructions for installing below.
 
-    
-       
+To Install
+
+Copy Repo code and paste in your terminal like this
+
+git clone "paste here"
+
+run bundle install at the main directory and then run ruby bin/run
+
