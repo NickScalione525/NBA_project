@@ -30,6 +30,11 @@ class Cli
          end
     end
 
+    def display_team_info
+        knicks = Scraper.new.scrape_team_info
+        self.knicks_info(knicks)
+    end
+
         def knicks_info(team)
         puts "Bounding and Astounding, here is a look at your 2020-2021 NY Knicks."
         puts "--------------------------------------------------------------------"
@@ -122,8 +127,8 @@ class Cli
                 self.player_salary_prompt(player)
             elsif ["4", "Player info"].include?(input) 
                 self.player_info_prompt
-            elsif ["5", "Team info"].include?(input) 
-                self.knicks_info
+            elsif ["5", "Team info"].include?(input)
+                self.display_team_info
             elsif ["6", "Exit"].include?(input)
                 abort "Go Knicks"
             else
@@ -135,24 +140,8 @@ class Cli
     end
 
             def player_salary_prompt(player)
-            #     # puts " "
-            #     # puts "Folks, these guys are making a lot more than I did when i played, lets see who is making what this year"
-            #     # puts "-----------------------------------------------------------------------------------------------"
-            #     # puts "Julius Randle, RJ Barrett, Frank Ntilikina, Immanuel Quickley, Austin Rivers, Obi Toppin, Alec Burks"
-            #     # puts " "
-            #     # puts "Mitchell Robinson, Reggie Bullock, Ignas Brazdeikis, Nerlens Noel, Taj Gibson, Elrid Payton"
-            #     # puts " "
-            #     # puts "Theo Pinson, Dennis Smith Jr, Jared Harper, Kevin Knox"
-            #     # puts "------------------------------------------------------------------------------------------------"
-            #     # input = gets.strip
-            #     # if input.include?("Julius Randle") || input.include?("RJ Barrett") || input.include?("Kevin Knox") || input.include?("Frank Ntilikina") || input.include?("Taj Gibson") || input.include?("Nerlens Noel") || input.include?("Mitchell Robinson") || input.include?("Obi Toppin") || input.include?("Ignas Brazdeikis") || input.include?("Austin Rivers") || input.include?("Reggie Bullock") || input.include?("Alec Burks") || input.include?("Elfrid Payton") || input.include?("Immanuel Quickley") || input.include?("Dennis Smith Jr") || input.include?("Jared Harper") || input.include?("Theo Pinson")
                 Scraper.new.player_salaries(player)
                 self.player_salary(player)
-                
-            #     else
-            #         puts "Driving and Striving, but to no avail. Let's try that again"
-            #         self.prompt_selection
-            #    end
             end
 
             def player_salary(player)
@@ -172,9 +161,9 @@ class Cli
             if ["1", "Player info"].include?(input)
                 self.player_info_prompt
             elsif ["2", "Traditional stats"].include?(input)
-                self.tstats_display
+                self.tstats(player)
             elsif ["3", "Advanced stats"].include?(input) 
-                self.astats_display
+                self.astats(player)
             elsif ["4", "Team info"].include?(input) 
                 self.knicks_info
             elsif ["5", "Exit"].include?(input)
@@ -188,19 +177,6 @@ class Cli
        
     end
 end
-
-
-    # def player_stats(player)
-    #     puts " "
-    #     puts " Which Stats would you like to see, Traditional or Advanced?"
-    #     puts " "
-    #     input = gets.strip
-    #     if input == "Traditional" || input == "traditional"
-    #         self.tstats(player) 
-    #     elsif input == "Advanced" || input == "advanced"
-    #         self.astats(player)
-    #     end
-    # end
 
     def tstats(player)
             Scraper.new.traditional_player_stats(player)
@@ -252,11 +228,11 @@ end
         if ["1", "Player info"].include?(input)
             self.player_info_prompt
         elsif ["2", "Advanced stats"].include?(input)
-            self.astats_display(player)
+            self.astats(player)
         elsif ["3", "Player salary"].include?(input) 
-            self.player_salary(player)
+            self.player_salary_prompt(player)
         elsif ["4", "Team info"].include?(input) 
-            self.knicks_info
+            self.display_team_info
         elsif ["5", "Exit"].include?(input)
             abort "Go Knicks"
         else
@@ -269,18 +245,8 @@ end
 end
 
 def astats(player)
-    # puts " "
-    #     puts " A precocious vet or an auspicious neophyte? Which Knick with the Knack will tickle your fancy?"
-    #     puts "-----------------------------------------------------------------------------------------------"
-    #     puts "Julius Randle, RJ Barrett, Frank Ntilikina, Immanuel Quickley, Austin Rivers, Obi Toppin, Alec Burks"
-    #     puts " "
-    #     puts "Mitchell Robinson, Reggie Bullock, Ignas Brazdeikis, Nerlens Noel, Taj Gibson, Elrid Payton"
-    #     puts " "
-    #     puts "Theo Pinson, Dennis Smith Jr, Jared Harper, Kevin Knox"
-    #     puts "------------------------------------------------------------------------------------------------"
-    #     input = gets.strip
-    #     if input.include?("Julius Randle") || input.include?("RJ Barrett") || input.include?("Kevin Knox") || input.include?("Frank Ntilikina") || input.include?("Taj Gibson") || input.include?("Nerlens Noel") || input.include?("Mitchell Robinson") || input.include?("Obi Toppin") || input.include?("Ignas Brazdeikis") || input.include?("Austin Rivers") || input.include?("Reggie Bullock") || input.include?("Alec Burks") || input.include?("Elfrid Payton") || input.include?("Immanuel Quickley") || input.include?("Dennis Smith Jr") || input.include?("Jared Harper") || input.include?("Theo Pinson")
         Scraper.new.advanced_player_stats(player)
+        self.astats_display(player)
        
     end
 
@@ -326,11 +292,11 @@ def astats(player)
     if ["1", "Player info"].include?(input)
         self.player_info_prompt
     elsif ["2", "Traditional stats"].include?(input)
-        self.player_stats
+        self.tstats(player)
     elsif ["3", "Player salary"].include?(input) 
-        self.player_salary_prompt
+        self.player_salary_prompt(player)
     elsif ["4", "Team info"].include?(input) 
-        self.knicks_info
+        self.display_team_info
     elsif ["5", "Exit"].include?(input)
         abort "Go Knicks"
     else

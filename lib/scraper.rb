@@ -77,7 +77,7 @@ class Scraper
 
     def advanced_player_stats(player)
         doc3 = Nokogiri::HTML(open("https://www.basketball-reference.com/teams/NYK/2021.html"))
-        player = {}
+        advanced_hash = {}
         set = doc3.css("#advanced tbody").each do |t| 
             t.children.each do |t|
                 if t.text.include?(player.name)
@@ -130,12 +130,11 @@ class Scraper
     end
 
     def player_salaries(player)
-        salary_hash = {}
         doc4 = Nokogiri::HTML(open("https://www.basketball-reference.com/contracts/NYK.html"))
         doc4.css("#contracts tbody").collect do |t| 
             t.children.each do |t|
             if t.text.include?(player.name)
-                salary_hash[:player_salary] = t.children[2].text
+                player.salary = t.children[2].text
              end
         end
     end

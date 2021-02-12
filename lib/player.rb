@@ -5,7 +5,7 @@ require 'terminal-table'
 
 
 class Player 
-  attr_accessor :name, :number, :position, :height, :weight, :birthdate, :nationality, :experience, :college, :age, :games, :starts, :mpg, :fg, :fga, :fga, :fgperc, :threes_a_game, :threes_attempted, :three_percentage, :twos_a_game, :twos_attempted, :twos_percentage, :efg, :ft, :fta, :ft_percentage, :orb, :drb, :trb, :ast, :stl, :blk, :tov, :pf, :pts, :mp, :PER, :TS, :three_rate, :Ft, :ORB_percentage, :DRB_percentage, :tB_percentage, :AST_percentage, :STL_percentage, :BLK_percentage, :TOV_percentage, :USG, :OWS, :DWS, :WS, :WS_per_forty_eight, :OBPM, :DBPM, :BPM, :VORP, :salary
+  attr_accessor :name, :number, :position, :height, :weight, :birthdate, :nationality, :experience, :college, :age, :games, :starts, :mpg, :fg, :fga, :fga, :fgperc, :threes_a_game, :threes_attempted, :three_percentage, :twos_a_game, :twos_attempted, :twos_percentage, :efg, :ft, :fta, :ft_percentage, :orb, :drb, :trb, :ast, :stl, :blk, :tov, :pf, :pts, :mp, :per, :ts, :three_rate, :ft, :orb_percentage, :drb_percentage, :tb_percentage, :ast_percentage, :stl_percentage, :blk_percentage, :tov_percentage, :usg, :ows, :dws, :ws, :ws_per_forty_eight, :obpm, :dbpm, :bpm, :vorp, :salary
 
     @@all = []
         
