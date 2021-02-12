@@ -21,22 +21,23 @@ class Player
         @@all
     end
 
-    def self.create_player(player_array)
-        player_array.each do |player_hash|
-            Player.new(player)
-        end
-    end
-
-    def self.player_names
-        @@all.map {|player| player.name}
+    def self.find_by_name(input)
+      @@all.find do |input|
+          player.name.include?(input.downcase)
       end
+  end
+    # def self.create_player(player_array)
+    #     player_array.each do |player_hash|
+    #         Player.new(player)
+    #     end
+    # end
+
+    # def self.player_names
+    #     @@all.map {|player| player.name}
+    #   end
 
     
-    def self.find_by_name(input)
-        @@all.find do |input|
-            player.name.include?(input.downcase)
-        end
-    end
+
 
    
 
