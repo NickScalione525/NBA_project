@@ -1,6 +1,4 @@
 
-require_relative('../config/environment')
-
 
 class Cli  
 
@@ -19,7 +17,9 @@ class Cli
         input = gets.strip
         if ["1", "Team info"].include?(input)
             knicks = Scraper.new.scrape_team_info
+           
             self.knicks_info(knicks)
+
         elsif ["2", "Player info"].include?(input)
             self.player_info_prompt
         elsif ["3", "Exit"].include?(input)
@@ -31,7 +31,8 @@ class Cli
     end
 
     def display_team_info
-        knicks = Scraper.new.scrape_team_info
+       
+        knicks = Team.all.empty? ? Scraper.new.scrape_team_info : Team.all[0]
         self.knicks_info(knicks)
     end
 
@@ -71,7 +72,7 @@ class Cli
         elsif ["2", "Exit"].include?(input)
             abort "Go Knicks"
         else
-            if ["1", "Player info", "2", "Exit"].include?(input)
+            if !["1", "Player info", "2", "Exit"].include?(input)
             puts "Hexing and Vexing, that was a most dubious selection.  Please try again."
             self.prompt_selection
         end
@@ -89,8 +90,8 @@ class Cli
             puts "Theo Pinson, Derrick Rose, Jared Harper, Kevin Knox"
             puts "------------------------------------------------------------------------------------------------"
             input = gets.strip
-            if input.include?("Julius Randle") || input.include?("RJ Barrett") || input.include?("Kevin Knox") || input.include?("Frank Ntilikina") || input.include?("Taj Gibson") || input.include?("Nerlens Noel") || input.include?("Mitchell Robinson") || input.include?("Obi Toppin") || input.include?("Ignas Brazdeikis") || input.include?("Austin Rivers") || input.include?("Reggie Bullock") || input.include?("Alec Burks") || input.include?("Elfrid Payton") || input.include?("Immanuel Quickley") || input.include?("Dennis Smith Jr") || input.include?("Jared Harper") || input.include?("Theo Pinson")
-            player = Scraper.new.roster(input)
+            if input.include?("Julius Randle") || input.include?("RJ Barrett") || input.include?("Kevin Knox") || input.include?("Frank Ntilikina") || input.include?("Taj Gibson") || input.include?("Nerlens Noel") || input.include?("Mitchell Robinson") || input.include?("Obi Toppin") || input.include?("Ignas Brazdeikis") || input.include?("Austin Rivers") || input.include?("Reggie Bullock") || input.include?("Alec Burks") || input.include?("Elfrid Payton") || input.include?("Immanuel Quickley") || input.include?("Derrick Rose") || input.include?("Jared Harper") || input.include?("Theo Pinson")
+            player = Player.find_by_name(input) || Scraper.new.roster(input)
             self.player_info(player)
             else
                 puts "Hmmmm, a most most dubious call indeed.Take the ball out again"
@@ -113,7 +114,7 @@ class Cli
             puts "------------------------------------------------------------------------------"
             puts " 1. #{player.name}'s Traditional stats ""   2. #{player.name}'s Advanced stats" 
             puts " "
-            puts " 3.#{player.name}'s salary                                      4. Player info"  
+            puts " 3. #{player.name}'s salary                                     4. Player info"  
             puts " "     
             puts " 5. Team info                                                          6. Exit"
             puts "------------------------------------------------------------------------------"
@@ -132,9 +133,9 @@ class Cli
             elsif ["6", "Exit"].include?(input)
                 abort "Go Knicks"
             else
-                if ["1", "Team info", "2", "Player info", "3", "Player stats", "4", "Exit"].include?(input)
+                if !["1", "Team info", "2", "Player info", "3", "Advanced stats", "4", "Salary", "5", "Traditional stats", "6", "Exit"].include?(input)
                 puts "Hexing and Vexing, that was a most dubious selection.  Please try again."
-                self.prompt_selection
+                self.player_info(player)
             end
         end
     end
@@ -154,24 +155,24 @@ class Cli
             puts "------------------------------------------------------------------------------"
             puts " 1. #{player.name}'s Traditional stats ""  2. #{player.name}'s Advanced stats "
             puts " "
-            puts " 1. Player info "  "              4. Team info                      " "5. Exit"
+            puts " 3. Player info "  "              4. Team info                      " "5. Exit"
             puts "------------------------------------------------------------------------------"
             puts "------------------------------------------------------------------------------"
             input = gets.strip
-            if ["1", "Player info"].include?(input)
-                self.player_info_prompt
-            elsif ["2", "Traditional stats"].include?(input)
+            if  ["1", "Traditional stats"].include?(input)
                 self.tstats(player)
-            elsif ["3", "Advanced stats"].include?(input) 
+            elsif ["2", "Advanced stats"].include?(input) 
                 self.astats(player)
+            elsif ["3", "Player info"].include?(input)
+                self.player_info_prompt
             elsif ["4", "Team info"].include?(input) 
-                self.knicks_info
+                self.display_team_info
             elsif ["5", "Exit"].include?(input)
                     abort "Go Knicks"
             else
-                if ["1", "Player info", "2", "Traditional stats", "3", "Advanced stats", "4", "Team info", "5", "Exit"].include?(input)
+                if !["1", "Player info", "2", "Traditional stats", "3", "Advanced stats", "4", "Team info", "5", "Exit"].include?(input)
                 puts "Hexing and Vexing, that was a most dubious selection.  Please try again."
-                self.prompt_selection
+                self.player_salary(player)
             end
                 
        
@@ -236,9 +237,9 @@ end
         elsif ["5", "Exit"].include?(input)
             abort "Go Knicks"
         else
-            if ["1", "Player info", "2", "Player stats", "3", "Player salary", "4", "Team info", "5", "Exit"].include?(input)
+            if !["1", "Player info", "2", "Player stats", "3", "Player salary", "4", "Team info", "5", "Exit"].include?(input)
             puts "Hexing and Vexing, that was a most dubious selection.  Please try again."
-            self.prompt_selection
+            self.tstats(player)
         end
 
     end 
@@ -300,9 +301,9 @@ def astats(player)
     elsif ["5", "Exit"].include?(input)
         abort "Go Knicks"
     else
-        if ["1", "Player info", "2", "Player stats", "3", "Player salary", "4", "Team info", "5", "Exit"].include?(input)
+        if !["1", "Player info", "2", "Player stats", "3", "Player salary", "4", "Team info", "5", "Exit"].include?(input)
         puts "Hexing and Vexing, that was a most dubious selection.  Please try again."
-        self.player_stats
+        self.astats(player)
     end
 
 end 

@@ -1,5 +1,3 @@
-require 'pry'
-require 'terminal-table'
 
 
 
@@ -22,7 +20,7 @@ class Player
     end
 
     def self.find_by_name(input)
-      @@all.find do |input|
+      @@all.find do |player|
           player.name.include?(input.downcase)
       end
   end

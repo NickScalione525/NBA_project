@@ -1,16 +1,7 @@
-require 'nokogiri'
-require 'open-uri'
-require 'pry'
-require 'terminal-table'
-
-require_relative './player.rb'
-require_relative './team.rb'
-
 class Scraper
     def scrape_team_info
         knicks_hash = {}
         team_hash = {}
-        if Team.all.empty?
             doc = Nokogiri::HTML(open("https://www.basketball-reference.com/teams/NYK/2021.html"))
             doc2 = Nokogiri::HTML(open("https://www.basketball-reference.com/teams/NYK/"))
             doc2.css("#info p").each do |x|
@@ -30,7 +21,6 @@ class Scraper
                     team_hash[:def_rtg] = doc.css("div[data-template='Partials/Teams/Summary'] p").children[34].text.strip
                     team_hash[:net_rtg] = doc.css("div[data-template='Partials/Teams/Summary'] p").children[36].text.strip
                     team_hash = knicks_hash.merge(team_hash)
-                end
             end
         end
         Team.new(team_hash)
@@ -39,8 +29,8 @@ class Scraper
     def traditional_player_stats(player)
         doc2 = Nokogiri::HTML(open("https://www.basketball-reference.com/teams/NYK/2021.html"))
         traditional_hash = {}
-        collection = doc2.css("#per_game tbody").each do |t|
-            t.children.each do |t|
+        collection = doc2.css("#per_game tbody").each do |tr|
+            tr.children.each do |t|
                 if t.text.include?(player.name)
                         player.age = t.children[2].text
                         player.games = t.children[3].text
@@ -71,15 +61,14 @@ class Scraper
                     end
             end    
         end
-        Cli.new.tstats_display(player)
     end
 
 
     def advanced_player_stats(player)
         doc3 = Nokogiri::HTML(open("https://www.basketball-reference.com/teams/NYK/2021.html"))
         advanced_hash = {}
-        set = doc3.css("#advanced tbody").each do |t| 
-            t.children.each do |t|
+        set = doc3.css("#advanced tbody").each do |tr| 
+            tr.children.each do |t|
                 if t.text.include?(player.name)
                         player.mp = t.children[4].text
                         player.per = t.children[5].text
@@ -105,14 +94,13 @@ class Scraper
                 end
             end    
         end
-        Cli.new.astats_display(player)
     end
 
     def roster(input)
         doc5 = Nokogiri::HTML(open("https://www.basketball-reference.com/teams/NYK/2021.html"))
         player_hash = {}
-        doc5.css("#roster tbody").each do |t| 
-            t.children.each do |t|
+        doc5.css("#roster tbody").each do |tr| 
+            tr.children.each do |t|
                 if t.text.include?(input)
                     player_hash[:name] = t.children[1].text
                     player_hash[:number] = t.children[0].text
@@ -131,13 +119,12 @@ class Scraper
 
     def player_salaries(player)
         doc4 = Nokogiri::HTML(open("https://www.basketball-reference.com/contracts/NYK.html"))
-        doc4.css("#contracts tbody").collect do |t| 
-            t.children.each do |t|
+        doc4.css("#contracts tbody").collect do |tr| 
+            tr.children.each do |t|
             if t.text.include?(player.name)
                 player.salary = t.children[2].text
              end
         end
     end
-    Cli.new.player_salary(player)
     end  
 end

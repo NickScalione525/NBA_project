@@ -1,11 +1,3 @@
-require 'terminal-table'
-require_relative '../config/environment'
-
-
-
-require 'pry'
-
-
 
 
 class Team
@@ -22,9 +14,6 @@ class Team
             @@all << self 
         end
 
-
-
-    
 
         
     def self.all
